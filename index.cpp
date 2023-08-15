@@ -11,7 +11,7 @@ typedef struct Date {
 } Date;
 
 typedef struct Address {
-    char *rua;
+    char rua[LIMITVET];
     int numero;
     char bairro[LIMITVET];
     char cidade[LIMITVET];
@@ -87,10 +87,156 @@ Profissional* buscarProfissional(Profissional *listaProfissionais, int numMatric
 
 // Métodos da Lista de Profissões
 
-void exibirListaProfissoes(Profissao *listaProfissoes, int *qntProfissoes);
-void cadastrarNovaProfissao();
-void atualizarProfissao();
-void deletarProfissao();
+void exibirListaProfissoes(Profissao *listaProfissoes, int qntProfissoes){
+    Profissao *atual = listaProfissoes;
+
+    for(int i = 0; i < qntProfissoes; i++){
+        cout << "\n*******************************************************\n";
+        cout << "Codigo: " << atual->codigo << "\n";
+        cout << "Profissao: " << atual->nome << "\n";
+        cout << "Sigla: " << atual->sigla << "\n";
+        cout << "*******************************************************\n";
+
+        atual++;
+    }
+
+}
+
+void cadastrarNovaProfissao(Profissao *listaProfissoes, int *qntProfissoes){
+    Profissao *novaProfissao = listaProfissoes;
+    Profissao *achou;
+    int codigo;
+
+    for(int i = 0; i < *qntProfissoes; i++) {
+        novaProfissao++;
+    }
+
+    system("cls");
+    fflush(stdin);
+
+    cout << "Informe um codigo para a nova profissao que deseja criar: ";
+    cin >> codigo;
+
+    achou = buscarProfissao(listaProfissoes, codigo);
+
+    if(achou == NULL) {
+        novaProfissao->codigo = codigo;
+
+        fflush(stdin);
+        cout << "Informe o titulo da nova profissao: ";
+        gets(novaProfissao->nome);
+
+        cout << "Informe a sigla do orgao regulador dessa profissao: ";
+        gets(novaProfissao->sigla);
+
+        (*qntProfissoes)++;
+        cout << "\nNova profissao cadastrada!\n";
+    } else {
+        cout << "\nCodigo ja existe nos registros, tente outro!\n";
+    }
+}
+
+void atualizarProfissao(Profissao *listaProfissoes){
+    Profissao *profissaoEncontrada;
+    int codigo;
+
+    system("cls");
+    fflush(stdin);
+
+    cout << "Informe o codigo da profissao que deseja atualizar: ";
+    cin >> codigo;
+
+    profissaoEncontrada = buscarProfissao(listaProfissoes, codigo);
+
+    if(profissaoEncontrada == NULL){
+        cout << "\nProfissao nao encontrada!";
+    } else {
+        cout << "Informe o codigo atualizado da profissao: ";
+        cin >> profissaoEncontrada->codigo;
+
+        cout << "Informe o titulo atualizado profissao: ";
+        gets(profissaoEncontrada->nome);
+
+        cout << "Informe a sigla do orgao regulador dessa profissao: ";
+        gets(profissaoEncontrada->sigla);
+
+        cout << "\nProfissao atualizada!\n";
+    }
+}
+
+void deletarProfissao(Profissao *listaProfissoes, int *qntProfissoes){
+    Profissao *profissaoAtual, *proxProfissao, *ultProfissao;
+    int codigo;
+
+    system("cls");
+    fflush(stdin);
+
+    cout << "Informe o codigo da profissao que deseja deletar: ";
+    cin >> codigo;
+
+    profissaoAtual = buscarProfissao(listaProfissoes, codigo);
+    proxProfissao = profissaoAtual++;
+    ultProfissao = listaProfissoes;
+
+    for(int i = 1; i < *qntProfissoes; i++){
+        ultProfissao++;
+    }
+
+    cout << "\nAtual " << profissaoAtual->nome << "\n";
+    cout << "Prox " << proxProfissao->nome << "\n";
+    cout << "Ult " << ultProfissao->nome << "\n";
+
+    while(profissaoAtual != ultProfissao) {
+        profissaoAtual = proxProfissao;
+        proxProfissao++;
+    }
+
+    (*qntProfissoes)--;
+    cout << "\nProfissao deletada dos registros!\n";
+}
+
+void menuProfissoes(Profissao *listaProfissoes, int *qntProfissoes){
+    int menu = 0;
+
+    system("cls");
+
+    while(menu != 5){
+        fflush(stdin);
+
+        cout << "Bem-vindo ao menu das profissoes!\n";
+        cout << "Por favor, selecione uma opcao a seguir:\n";
+        cout << "1 - Exibir a lista de profissoes cadastradas\n";
+        cout << "2 - Cadastrar uma nova profissao\n";
+        cout << "3 - Atualizar o registro de alguma profissao\n";
+        cout << "4 - Deletar o registro de alguma profissao\n";
+        cout << "5 - Voltar ao menu principal\n";
+        cin >> menu;
+
+        switch (menu) {
+            case 1: {
+                exibirListaProfissoes(listaProfissoes, *qntProfissoes);
+                break;
+            }
+            case 2: {
+                cadastrarNovaProfissao(listaProfissoes, qntProfissoes);
+                break;
+            }
+            case 3: {
+                atualizarProfissao(listaProfissoes);
+                break;
+            }
+            case 4: {
+                deletarProfissao(listaProfissoes, qntProfissoes);
+                break;
+            }
+            case 5: {
+                cout << "\nAte a proxima!\n";
+                break;
+            }
+            default: cout << "\nOpcao nao reconhecida, tente novamente!\n";
+        }
+    }
+}
 
 // Métodos da lista de Profissionais
 
@@ -139,7 +285,7 @@ void cadastrarNovoProfissional(Profissao *listaProfissao,
     }
 
     cout << "Lista de profissoes disponiveis: \n";
-    exibirListaProfissoes(listaProfissao, qntProfissoes);
+    exibirListaProfissoes(listaProfissao, *qntProfissoes);
 
     cout << "\nPor favor informe a matricula do novo colaborador: \n";
     cin >> novoProfissional->matricula;
@@ -168,7 +314,7 @@ void cadastrarNovoProfissional(Profissao *listaProfissao,
     cout << "Informe o e-mail do novo colaborador: ";
     gets(novoProfissional->email);
 
-    *qntProfissionais++;
+    (*qntProfissionais)++;
     cout << "\nNovo colaborador cadastrado!\n";
 }
 
@@ -179,7 +325,7 @@ void atualizarProfissional(Profissao *listaProfissao,
 
     Profissional *profissionalEncontrado;
     Profissao *profissao;
-    int matricula, codigo;
+    int matricula;
 
     system("cls");
     fflush(stdin);
@@ -191,8 +337,10 @@ void atualizarProfissional(Profissao *listaProfissao,
     if(profissionalEncontrado == NULL){
         cout << "\nMatricula nao encontrada!\n";
     } else {
+        int codigo;
+
         cout << "\nLista de profissoes disponiveis: \n";
-        exibirListaProfissoes(listaProfissao, qntProfissoes);
+        exibirListaProfissoes(listaProfissao, *qntProfissoes);
 
         cout << "\nPor favor informe a matricula do novo colaborador: \n";
         cin >> profissionalEncontrado->matricula;
@@ -221,7 +369,7 @@ void atualizarProfissional(Profissao *listaProfissao,
         cout << "Informe o e-mail do novo colaborador: ";
         gets(profissionalEncontrado->email);
 
-        cout << "\nNovo colaborador cadastrado!\n";
+        cout << "\nCadastro atualizado!\n";
     }
 }
 
@@ -248,7 +396,7 @@ void deletarProfissional(Profissional *listaProfissionais, int *qntProfissionais
         proxProfissional++;
     }
 
-    *qntProfissionais--;
+    (*qntProfissionais)--;
     cout << "\nProfissional deletado!\n";
 }
 
@@ -269,7 +417,7 @@ void menuProfissional(Profissao *listaProfissao,
         cout << "2 - Cadastrar um novo profissional\n";
         cout << "3 - Atualizar o registro de algum profissional\n";
         cout << "4 - Deletar o registro de algum profissional\n";
-        cout << "5 - Voltar ao menu principal\n;";
+        cout << "5 - Voltar ao menu principal\n";
         cin >> menu;
 
         switch (menu) {
@@ -290,7 +438,7 @@ void menuProfissional(Profissao *listaProfissao,
                 break;
             }
             case 5: {
-                cout << "\nAté a próxima!\n";
+                cout << "\nAta a proxima!\n";
                 break;
             }
             default: cout << "\nOpcao nao reconhecida, tente novamente!\n";
@@ -302,12 +450,37 @@ int main(){
     Profissao listaProfissao[LIMITVET];
     Profissional listaProfissionais[LIMITVET];
     int qntProfissioes = 0, qntProfissionais = 0;
-    
-    menuProfissional(&listaProfissao[0],
-                     &listaProfissionais[0],
-                     &qntProfissioes,
-                     &qntProfissionais);
+    int menu = 0;
 
-    system("pause");
+    while(menu != 10){
+        fflush(stdin);
+        cout << "Bem-vindo ao sistema do hospital **********\n";
+        cout << "Selecione uma das opcoes no menu abaixo:\n";
+        cout << "1 - Acessar os registros de profissoes\n";
+        cout << "2 - Acessar os registros de profissionais\n";
+        cin >> menu;
+
+        switch (menu) {
+            case 1: {
+                menuProfissoes(&listaProfissao[0], &qntProfissioes);
+                break;
+            }
+            case 2: {
+                menuProfissional(&listaProfissao[0],
+                                 &listaProfissionais[0],
+                                 &qntProfissioes,
+                                 &qntProfissionais);
+                break;
+            }
+            case 10: {
+                cout << "\nAte a proxima!\n";
+                break;
+            }
+            default: cout << "\nOpcao nao identificada, tente novamente!\n";
+        }
+    }
+
+
+    cin.get();
     return 0;
 }
