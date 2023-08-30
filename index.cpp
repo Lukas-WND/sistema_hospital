@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string.h>
+#include <stdio.h>
 
 #define MAX_CLIENTES 10
 
@@ -16,7 +17,7 @@ typedef struct Date
     int ano;
 } Date;
 
-<<<<<<< HEAD
+
 typedef struct Address
 {
     char rua[50];
@@ -24,16 +25,9 @@ typedef struct Address
     char bairro[50];
     char cidade[50];
     char estado[50];
-=======
-typedef struct Address {
-    char rua[LIMITVET];
-    int numero;
-    char bairro[LIMITVET];
-    char cidade[LIMITVET];
-    char estado[LIMITVET];
->>>>>>> origin/profissional-crud
     int cep;
 } Address;
+
 
 typedef struct Profissao
 {
@@ -52,7 +46,6 @@ typedef struct Profissional
     int regProfissional;
     char telefone[11];
     char email[50];
-} Profissional;
 
 typedef struct Cliente
 {
@@ -65,6 +58,16 @@ typedef struct Cliente
     char telefone[15];
     Address endereco;
 } Cliente;
+
+} Profissional;
+typedef struct Atendimento {
+    int numeroAtendimento; // Primary Key
+    Profissional *matProfissional; // Foreing Key
+    Cliente Cliente // Foreing Key
+    Date dataAtendimento;
+    char descricao[100];
+} Atendimento;
+
 
 int buscarPosicaoCliente(Cliente *clientes, int qtdClientes, const char *cpf)
 {
@@ -143,27 +146,8 @@ void exibirListaClientes(Cliente *clientes, int qtdClientes)
     }
 }
 
-void atualizarCliente(Cliente *clientes, int qtdClientes)
-{
-    char cpf[11];
-typedef struct Cliente {
-    int matricula; // Primary Key
-    int cpf;
-    char nome[LIMITVET];
-    Date dataNascimento;
-    int idade;
-    char email[LIMITVET];
-    int telefone;
-    Address endereco;
-} Cliente;
+void atualizarCliente(Cliente *clientes, int qtdClientes);
 
-typedef struct Atendimento {
-    int numeroAtendimento; // Primary Key
-    Profissional *matProfissional; // Foreing Key
-    Cliente *codCliente; // Foreing Key
-    Date dataAtendimento;
-    char descricao[100];
-} Atendimento;
 
 int buscarPosicaoProfissao(Profissao *listaProfissao, int qntProfissoes, int codigoProfissao){
 
@@ -281,7 +265,7 @@ void atualizarProfissao(Profissao *listaProfissoes, int qntProfissoes){
     cout << "Digite o CPF do cliente que deseja excluir: ";
     cin.getline(cpf, sizeof(cpf));
 
-    int posicao = buscarPosicaoCliente(clientes, *qtdClientes, cpf);
+    int posicao = buscarPosicaoCliente(clientes, *qtdClientes, cpf){
     if (posicao != -1)
     {
         for (int i = posicao; i < *qtdClientes; i++)
