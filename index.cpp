@@ -28,12 +28,12 @@ typedef struct Profissao {
 typedef struct Profissional {
     int matricula; // Primary Key
     Profissao *profissao; // Foreing Key
-    char cpf[11];
+    char cpf[12];
     char nome[LIMITVET];
     Date dataNascimento;
-    int regProfissional;
-    char telefone[11];
-    char email[50];
+    char regProfissional[7];
+    char telefone[12];
+    char email[LIMITVET];
 } Profissional;
 
 typedef struct Cliente {
@@ -107,16 +107,16 @@ void cadastrarNovaProfissao(Profissao *listaProfissoes, int *qntProfissoes, int 
 
     system("cls");
 
-    codigo = (2023 * 100) + *incCodigo;
+    codigo = (2023 * 100) + *incCodigo; // O código vai ser gerado a partir do ano + a variável de incremento
 
     listaProfissoes[*qntProfissoes].codigo = codigo;
 
-    cout << "Informe o titulo da nova profissao: ";
+    cout << "Informe o titulo da nova profissao: "; // Nome da profissão
     cin.ignore();
-    gets(listaProfissoes[*qntProfissoes].nome);
+    cin.getline(listaProfissoes[*qntProfissoes].nome, LIMITVET);
 
     cout << "Informe a sigla do orgao regulador dessa profissao: ";
-    gets(listaProfissoes[*qntProfissoes].sigla);
+    cin.getline(listaProfissoes[*qntProfissoes].sigla, 5);
 
     (*incCodigo)++;
     (*qntProfissoes)++; // A quantidade de profissões cadastradas é incrementada
@@ -136,18 +136,16 @@ void atualizarProfissao(Profissao *listaProfissoes, int qntProfissoes){
 
     posicao = buscarPosicaoProfissao(listaProfissoes, qntProfissoes, codigo);
 
-    if(posicao == -1){
+    // Verifica se a função não retornou um valor válido de posição
+    if(posicao == -1){ 
         cout << "\nProfissao nao encontrada!";
     } else {
-        cout << "Informe o codigo atualizado da profissao: ";
-        cin >> listaProfissoes[posicao].codigo;
-
         cout << "Informe o titulo atualizado profissao: ";
         cin.ignore(); // Limpeza do buffer
-        gets(listaProfissoes[posicao].nome);
+        cin.getline(listaProfissoes[posicao].nome, LIMITVET);
 
         cout << "Informe a sigla do orgao regulador dessa profissao: ";
-        gets(listaProfissoes[posicao].sigla);
+        cin.getline(listaProfissoes[posicao].sigla, 5);
 
         cout << "\nProfissao atualizada!\n";
     }
@@ -226,19 +224,18 @@ void exibirProfissional(Profissional profissional){
     cout << "\n*******************************************************\n";
     cout << "Matricula: " << profissional.matricula << "\n";
     cout << "Nome: " << profissional.nome << "\n";
+
+    cout << "Profissao: " << profissional.profissao->nome << "\n";
+    cout << "Registro Profissional: " << profissional.regProfissional << " ";
+    cout << profissional.profissao->sigla << "\n";
+
     cout << "CPF: " << profissional.cpf << "\n";
+    cout << "E-mail: " << profissional.email << "\n";
+    cout << "Telefone: " << profissional.telefone << "\n";
 
     cout << "Data de Nascimento: " << profissional.dataNascimento.dia << "/";
     cout << profissional.dataNascimento.mes << "/";
     cout << profissional.dataNascimento.ano << "\n";
-
-    cout << "E-mail: " << profissional.email << "\n";
-    cout << "Profissao: " << profissional.profissao->nome << "\n";
-
-    cout << "Registro Profissional: " << profissional.regProfissional << " ";
-    cout << profissional.profissao->sigla << "\n";
-
-    cout << "Telefone: " << profissional.telefone << "\n";
     cout << "*******************************************************\n\n";
 }
 
@@ -263,7 +260,6 @@ void cadastrarNovoProfissional(Profissao *listaProfissoes,
     cout << "Lista de profissoes disponiveis: \n";
     exibirListaProfissoes(listaProfissoes, *qntProfissoes);
     cout << "\nDeseja cadastrar uma nova profissao? (s/n)\n";
-    fflush(stdin);
     cin >> cadastrar;
     cin.ignore();
 
@@ -338,11 +334,9 @@ void cadastrarNovoProfissional(Profissao *listaProfissoes,
         cout << "\n";
 
         cout << "Informe o registro profissional do novo colaborador: ";
-        cin >> listaProfissionais[*qntProfissionais].regProfissional;
-        cin.ignore();
-
+        cin.getline(listaProfissionais[*qntProfissionais].regProfissional, 7);
         cout << "Informe o telefone do novo colaborador: ";
-        cin.getline(listaProfissionais[*qntProfissionais].telefone, 11);
+        cin.getline(listaProfissionais[*qntProfissionais].telefone, 12);
         cout << "Informe o e-mail do novo colaborador: ";
         cin.getline(listaProfissionais[*qntProfissionais].email, LIMITVET);
 
@@ -378,8 +372,6 @@ void atualizarProfissional(Profissao *listaProfissoes,
         cout << "\nLista de profissoes disponiveis: \n";
         exibirListaProfissoes(listaProfissoes, qntProfissoes);
 
-        cout << "\nPor favor informe a matricula do novo colaborador: \n";
-        cin >> listaProfissionais[posicao].matricula;
         cout << "Informe o nome do novo colaborador: \n";
         gets(listaProfissionais[posicao].nome);
 
