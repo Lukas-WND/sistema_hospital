@@ -5,6 +5,7 @@
 #include <locale.h>
 
 #define MAX_CLIENTES 10
+#define MAX_ATENDIMENTO 10
 
 #define LIMITVET 50
 
@@ -780,36 +781,57 @@ void menuProfissional(Profissao *listaProfissao,
 void menuAtendimento (Atendimento *lisitaAtendimentos, int *qtdAtendimentos, Cliente *clientes, int &qtdClientes);
 void cadastrarAtendimento ();
 
-void cadastrarAtendimento(Cliente *clientes, int &qtdClientes){
+void cadastrarAtendimento(Cliente *clientes, int &qtdClientes, Atendimento *lisitaAtendimentos){
+    int posicao = -1, opcaosn = 0, voltar1 = 0;
+    char cpf[11];
+
+    while (voltar1 != 1){
     cout << "----------------------------------\n";
     cout << "  Cadastro de um novo Atendimento\n";
     cout << "----------------------------------\n\n";
     cout << "Informe o CPF do Cliente";
     cin.ignore();
     cin.getline(cpf, sizeof(cpf));
-    cin >> 
-    
+    posicao = buscarPosicaoCliente(clientes, *qtdClientes, *cpf);
+    if (posicao != -1){
+            cout << "Cliente Encontrado...\n";
+            lisitaAtendimentos.codCliente=&clientes[posicao];
+            voltar1 = 1;
+    }else{
+            cout << "Cliente nao encontrado!\n";
+            cout << "Deseja cadastrar um novo cliente?";
+            cout << "1 - Sim";
+            cout << "2 - Nao";
+            cin  >>opcaosn;
+            if (opcaosn = 1){
+            cadastrarCliente(clientes, qtdClientes);
+            menuAtendimento();
+            voltar1 =1;
+            } else{}
+    }
+    }
+
 }
 
-void menuAtendimento(Atendimento *lisitaAtendimentos, int *qtdAtendimentos, Cliente *clientes, int &qtdClientes){
-    int menu = 0;
+void menuAtendimento(Atendimento *listaAtendimentos, int *qtdAtendimentos, Cliente *clientes, int &qtdClientes){
+    int opcaomenu = 0;
     system ("cls");
-    
-    while (menu !=6){
+
+    while (opcaomenu !=6){
         fflush(stdin);
         cout << "Bem vindo ao Menu Atendimento \n";
-        cout << "Selecione alguma das opcoes a seguir \n";
+        cout << "Selecione alguma das opcoes a seguir: \n";
         cout << "1 - Cadastro de Atendimento \n";
         cout << "2 - Atualizar Atendimento \n";
         cout << "3 - Exibir Atendimentos \n";
         cout << "4 - Busca de Atendimento \n";
         cout << "5 - Excluir Atendimento \n";
         cout << "6 - Voltar ao Menu principal \n";
-        cin >> menu;
-        
-        switch (menu){
+        cin >> opcaomenu;
+
+        switch (opcaomenu){
         case 1:
-            cadastrarAtendimento(clientes ,*qtdAtendimentos)
+            cadastrarAtendimento(clientes ,*qtdAtendimentos, &listaAtendimentos)
             break;
         case 2:
             // Método atualizarAtendimento
@@ -827,7 +849,7 @@ void menuAtendimento(Atendimento *lisitaAtendimentos, int *qtdAtendimentos, Clie
             break;
         default :
             cout << "Opcao Invalida\n";
-        }        
+        }
     }
 
 }
@@ -839,7 +861,7 @@ int main()
     Cliente clientes[MAX_CLIENTES];
     Profissao listaProfissoes[LIMITVET];
     Profissional listaProfissionais[LIMITVET];
-    Atendimento lisitaAtendimentos[MAX_CLIENTES];
+    Atendimento lisitaAtendimentos[MAX_ATENDIMENTO];
     int incCodigo = 1;
     int incMatricula = 1;
     int qntProfissoes = 0;
