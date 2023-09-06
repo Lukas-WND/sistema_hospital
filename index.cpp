@@ -5,6 +5,7 @@
 #include <locale.h>
 
 #define MAX_CLIENTES 10
+#define MAX_ATENDIMENTO 10
 
 #define LIMITVET 50
 
@@ -830,23 +831,23 @@ void cadastrarAtendimento(Atendimento *atendimento, int qtdAtendimentos, Cliente
     
 }
 
-void menuAtendimento(Atendimento *lisitaAtendimentos, int *qtdAtendimentos, Cliente *clientes, int &qtdClientes){
-    int menu = 0;
+void menuAtendimento(Atendimento *listaAtendimentos, int *qtdAtendimentos, Cliente *clientes, int &qtdClientes){
+    int opcaomenu = 0;
     system ("cls");
-    
-    while (menu !=6){
+
+    while (opcaomenu !=6){
         fflush(stdin);
         cout << "Bem vindo ao Menu Atendimento \n";
-        cout << "Selecione alguma das opcoes a seguir \n";
+        cout << "Selecione alguma das opcoes a seguir: \n";
         cout << "1 - Cadastro de Atendimento \n";
         cout << "2 - Atualizar Atendimento \n";
         cout << "3 - Exibir Atendimentos \n";
         cout << "4 - Busca de Atendimento \n";
         cout << "5 - Excluir Atendimento \n";
         cout << "6 - Voltar ao Menu principal \n";
-        cin >> menu;
-        
-        switch (menu){
+        cin >> opcaomenu;
+
+        switch (opcaomenu){
         case 1:
             cadastrarAtendimento(lisitaAtendimentos, *qtdAtendimentos, clientes, qtdClientes);
             break;
@@ -866,7 +867,7 @@ void menuAtendimento(Atendimento *lisitaAtendimentos, int *qtdAtendimentos, Clie
             break;
         default :
             cout << "Opcao Invalida\n";
-        }        
+        }
     }
 
 }
@@ -878,7 +879,7 @@ int main()
     Cliente clientes[MAX_CLIENTES];
     Profissao listaProfissoes[LIMITVET];
     Profissional listaProfissionais[LIMITVET];
-    Atendimento lisitaAtendimentos[MAX_CLIENTES];
+    Atendimento lisitaAtendimentos[MAX_ATENDIMENTO];
     int incCodigo = 1;
     int incMatricula = 1;
     int qntProfissoes = 0;
