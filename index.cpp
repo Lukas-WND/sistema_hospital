@@ -46,7 +46,7 @@ typedef struct Profissional {
 
 typedef struct Cliente
 {
-    char matricula[10];
+    int matricula; // Primary Key
     char cpf[15];
     char nome[50];
     Date dataNascimento;
@@ -73,11 +73,11 @@ void atualizarCliente(Cliente *clientes, int qtdClientes);
 void excluirCliente(Cliente *clientes, int *qtdClientes);
 void menuClientes(Cliente *clientes, int *qtdClientes);
 
-int buscarPosicaoCliente(Cliente *clientes, int qtdClientes, const char *cpf)
+int buscarPosicaoCliente(Cliente *clientes, int qtdClientes, int matricula)
 {
     for (int i = 0; i < qtdClientes; i++)
     {
-        if (strcmp(clientes[i].cpf, cpf) == 0)
+        if (clientes[i].matricula == matricula)
         {
             return i;
         }
@@ -224,7 +224,7 @@ void excluirCliente(Cliente *clientes, int *qtdClientes)
 void menuClientes(Cliente *clientes, int *qtdClientes)
 {
     int opcao = 0;
-    int posicao = -1; // Define the variable outside the switch
+    int posicao = -1; 
     char cpf[12];
 
     while (opcao != 6)
@@ -777,17 +777,56 @@ void menuProfissional(Profissao *listaProfissao,
 
 // Começo dos métodos "Atendimento"
 
-void menuAtendimento (Atendimento *lisitaAtendimentos, int *qtdAtendimentos, Cliente *clientes, int &qtdClientes);
+void menuAtendimento (Atendimento *lisitaAtendimentos, int *qtdAtendimentos);
 void cadastrarAtendimento ();
 
-void cadastrarAtendimento(Cliente *clientes, int &qtdClientes){
+void cadastrarAtendimento(Atendimento *atendimento, int qtdAtendimentos, Cliente *clientes, int *qtdClientes){
+    int posicao = -1;
+    int matricula = -1;
     cout << "----------------------------------\n";
     cout << "  Cadastro de um novo Atendimento\n";
     cout << "----------------------------------\n\n";
-    cout << "Informe o CPF do Cliente";
+    cout << "Informe a matricula do Cliente";
+    cout << "CLIENTES CADASTRADOS\n";
+    exibirListaClientes(clientes, *qtdClientes);
+    cout << "----------------------------------\n";
+    cout << "Matricula: ";
     cin.ignore();
-    cin.getline(cpf, sizeof(cpf));
-    cin >> 
+    cin >> matricula;
+    posicao = buscarPosicaoCliente(clientes, *qtdClientes, matricula);
+    while (posicao == -1){
+        cout << "Matricula nao encontrada, tente novamente\n";
+        cout << "Matricula: ";
+        cin.ignore();
+        cin >> matricula;
+        posicao = buscarPosicaoCliente(clientes, *qtdClientes, matricula);
+    }
+    atendimento->codCliente = &clientes[posicao];
+    cout<< atendimento->codCliente->nome;
+    
+    //faça o mesmo para o profissional , mas com o vetor de profissionais para salvar no atendimento->codProfissional
+
+
+
+
+
+
+    // cout << "----------------------------------\n";
+    // cout << "Data do Atendimento\n";
+    // cout << "----------------------------------\n";
+    // cout << "Dia: ";
+    // cin >> atendimento->dataAtendimento.dia;
+    // cout << "Mes: ";
+    // cin >> atendimento->dataAtendimento.mes;
+    // cout << "Ano: ";
+    // cin >> atendimento->dataAtendimento.ano;
+    // cout << "----------------------------------\n";
+    // cout << "Horario do Atendimento\n";
+    // cout << "----------------------------------\n";
+    // cout << "Hora: ";
+
+
+
     
 }
 
@@ -809,7 +848,7 @@ void menuAtendimento(Atendimento *lisitaAtendimentos, int *qtdAtendimentos, Clie
         
         switch (menu){
         case 1:
-            cadastrarAtendimento(clientes ,*qtdAtendimentos)
+            cadastrarAtendimento(lisitaAtendimentos, *qtdAtendimentos, clientes, qtdClientes);
             break;
         case 2:
             // Método atualizarAtendimento
@@ -882,7 +921,7 @@ int main()
                              &incMatricula);
             break;
         case 4:
-            menuAtendimento (lisitaAtendimentos, &qtdAtendimentos,clientes, &qtdClientes);
+            menuAtendimento(lisitaAtendimentos, &qtdAtendimentos, clientes, qtdClientes);
         }
         system("pause");
     }
