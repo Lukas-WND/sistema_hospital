@@ -66,7 +66,7 @@ typedef struct Atendimento {
 } Atendimento;
 
 // metodos cliente inicio
-int buscarPosicaoCliente(Cliente *clientes, int qtdClientes, const char *cpf);
+int buscarPosicaoCliente(Cliente *clientes, int qtdClientes, char *cpf);
 void cadastrarCliente(Cliente *clientes, int *qtdClientes);
 void exibirCliente(Cliente cliente);
 void exibirListaClientes(Cliente *clientes, int qtdClientes);
@@ -74,7 +74,7 @@ void atualizarCliente(Cliente *clientes, int qtdClientes);
 void excluirCliente(Cliente *clientes, int *qtdClientes);
 void menuClientes(Cliente *clientes, int *qtdClientes);
 
-int buscarPosicaoCliente(Cliente *clientes, int qtdClientes, int matricula)
+int buscarPosicaoCliente(Cliente *clientes, int qtdClientes, char matricula)
 {
     for (int i = 0; i < qtdClientes; i++)
     {
@@ -225,7 +225,7 @@ void excluirCliente(Cliente *clientes, int *qtdClientes)
 void menuClientes(Cliente *clientes, int *qtdClientes)
 {
     int opcao = 0;
-    int posicao = -1; 
+    int posicao = -1;
     char cpf[12];
 
     while (opcao != 6)
@@ -778,19 +778,24 @@ void menuProfissional(Profissao *listaProfissao,
 
 // Começo dos métodos "Atendimento"
 
-void menuAtendimento (Atendimento *lisitaAtendimentos, int *qtdAtendimentos);
-void cadastrarAtendimento ();
+void menuAtendimento (Atendimento *listaAtendimentos, int qtdAtendimentos, Cliente *clientes, int &qtdClientes,
+                    Profissional *listaProfissionais, int qntProfissionais);
+void cadastrarAtendimento (Atendimento *listaAtendimento, int qtdAtendimentos, Cliente *clientes, int *qtdClientes,
+                          Profissional listaProfissionais, int *qntProfissionais);
 
-void cadastrarAtendimento(Atendimento *atendimento, int qtdAtendimentos, Cliente *clientes, int *qtdClientes){
+void cadastrarAtendimento(Atendimento *listaAtendimento, int qtdAtendimentos, Cliente *clientes, int *qtdClientes,
+                          Profissional listaProfissionais, int *qntProfissionais){
     int posicao = -1;
-    int matricula = -1;
+    char matricula = '0';
+    char matriculaP = '0';
+    int posicaoP = -1;
     cout << "----------------------------------\n";
     cout << "  Cadastro de um novo Atendimento\n";
     cout << "----------------------------------\n\n";
-    cout << "Informe a matricula do Cliente";
     cout << "CLIENTES CADASTRADOS\n";
     exibirListaClientes(clientes, *qtdClientes);
     cout << "----------------------------------\n";
+    cout << "Informe a matricula do Cliente\n";
     cout << "Matricula: ";
     cin.ignore();
     cin >> matricula;
@@ -802,36 +807,44 @@ void cadastrarAtendimento(Atendimento *atendimento, int qtdAtendimentos, Cliente
         cin >> matricula;
         posicao = buscarPosicaoCliente(clientes, *qtdClientes, matricula);
     }
-    atendimento->codCliente = &clientes[posicao];
-    cout<< atendimento->codCliente->nome;
-    
+    listaAtendimento->codCliente = &clientes[posicao];
+    cout<< listaAtendimento->codCliente->nome;
+
     //faça o mesmo para o profissional , mas com o vetor de profissionais para salvar no atendimento->codProfissional
 
-
-
-
-
-
-    // cout << "----------------------------------\n";
-    // cout << "Data do Atendimento\n";
-    // cout << "----------------------------------\n";
-    // cout << "Dia: ";
-    // cin >> atendimento->dataAtendimento.dia;
-    // cout << "Mes: ";
-    // cin >> atendimento->dataAtendimento.mes;
-    // cout << "Ano: ";
-    // cin >> atendimento->dataAtendimento.ano;
-    // cout << "----------------------------------\n";
-    // cout << "Horario do Atendimento\n";
-    // cout << "----------------------------------\n";
-    // cout << "Hora: ";
-
-
-
-    
+    cout << "Informe a Matricula do Profissional\n";
+    exibirListaProfissionais(*listaProfissionais, *qntProfissionais);
+    cout << "----------------------------------\n";
+    cout << "Matricula: ";
+    cin.ignore();
+    cin >> matriculaP;
+    posicaoP = buscarPosicaoProfissional(listaProfissionais, qntProfissionais, matriculaP);
+    while (posicaoP == -1){
+        cout << "Matricula nao encontrada, tente novamente\n";
+        cout << "Matricula: ";
+        cin.ignore();
+        cin >> matriculaP;
+        posicaoP = buscarPosicaoProfissional(listaProfissionais, qntProfissionais, matriculaP);
+    }
+    listaAtendimento ->matProfissional = &listaProfissionais[posicaop];
+    cout << listaAtendimento-> matProfissional = &listaProfissionais[posicaoP];
+    cout << "----------------------------------\n";
+    cout << "Data do Atendimento\n";
+    cout << "----------------------------------\n";
+    cout << "Dia: ";
+    cin >> listaAtendimento->dataAtendimento.dia;
+    cout << "Mes: ";
+    cin >> listaAtendimento->dataAtendimento.mes;
+    cout << "Ano: ";
+    cin >> listaAtendimento->dataAtendimento.ano;
+    //cout << "----------------------------------\n";
+    //cout << "Horario do Atendimento\n";
+    //cout << "----------------------------------\n";
+    //cout << "Hora: ";
 }
 
-void menuAtendimento(Atendimento *listaAtendimentos, int *qtdAtendimentos, Cliente *clientes, int &qtdClientes){
+void menuAtendimento(Atendimento *listaAtendimentos, int qtdAtendimentos, Cliente *clientes, int &qtdClientes,
+                    Profissional *listaProfissionais, int qntProfissionais){
     int opcaomenu = 0;
     system ("cls");
 
@@ -849,7 +862,7 @@ void menuAtendimento(Atendimento *listaAtendimentos, int *qtdAtendimentos, Clien
 
         switch (opcaomenu){
         case 1:
-            cadastrarAtendimento(lisitaAtendimentos, *qtdAtendimentos, clientes, qtdClientes);
+            cadastrarAtendimento(listaAtendimentos, qtdAtendimentos, clientes, &qtdClientes, listaProfissionais, qntProfissionais);
             break;
         case 2:
             // Método atualizarAtendimento
@@ -879,7 +892,7 @@ int main()
     Cliente clientes[MAX_CLIENTES];
     Profissao listaProfissoes[LIMITVET];
     Profissional listaProfissionais[LIMITVET];
-    Atendimento lisitaAtendimentos[MAX_ATENDIMENTO];
+    Atendimento listaAtendimentos[MAX_ATENDIMENTO];
     int incCodigo = 1;
     int incMatricula = 1;
     int qntProfissoes = 0;
@@ -922,8 +935,9 @@ int main()
                              &incMatricula);
             break;
         case 4:
-            menuAtendimento(lisitaAtendimentos, &qtdAtendimentos, clientes, qtdClientes);
+            menuAtendimento(listaAtendimentos, qtdAtendimentos, clientes, qtdClientes,listaProfissionais, qntProfissionais);
         }
         system("pause");
     }
 }
+
