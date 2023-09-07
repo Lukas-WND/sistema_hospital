@@ -881,6 +881,7 @@ int main()
             break;
         case 4:
             menuAtendimento(listaAtendimentos, &qtdAtendimentos, clientes, &qtdClientes, listaProfissionais, &qntProfissionais);
+            break;
         }
         system("pause");
     }
