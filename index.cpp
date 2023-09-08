@@ -245,50 +245,50 @@ void menuClientes(Cliente *clientes, int *qtdClientes)
 
         switch (opcao)
         {
-        case 1:
-            cadastrarCliente(clientes, qtdClientes);
-            break;
-        case 2:
-            cout << "Digite o CPF do cliente que deseja exibir: ";
-            cin.ignore();
-            cin.getline(cpf, sizeof(cpf));
-            posicao = buscarPosicaoCliente(clientes, *qtdClientes, cpf);
-            if (posicao != -1)
-            {
-                exibirCliente(clientes[posicao]);
-            }
-            else
-            {
-                cout << "Cliente nao encontrado!" << endl;
-            }
-            break;
-        case 3:
-            exibirListaClientes(clientes, *qtdClientes);
-            break;
-        case 4:
-            posicao = -1; // Reset the posicao variable
-            cout << "Digite o CPF do cliente que deseja atualizar: ";
-            cin.ignore();
-            cin.getline(cpf, sizeof(cpf));
-            posicao = buscarPosicaoCliente(clientes, *qtdClientes, cpf);
-            if (posicao != -1)
-            {
-                atualizarCliente(clientes, *qtdClientes);
-            }
-            else
-            {
-                cout << "Cliente nao encontrado!" << endl;
-            }
-            break;
-        case 5:
-            posicao = -1; // Reset the posicao variable
-            excluirCliente(clientes, qtdClientes);
-            break;
-        case 6:
-            break;
-        default:
-            cout << "Opcao invalida!" << endl;
-            break;
+            case 1:
+                cadastrarCliente(clientes, qtdClientes);
+                break;
+            case 2:
+                cout << "Digite o CPF do cliente que deseja exibir: ";
+                cin.ignore();
+                cin.getline(cpf, sizeof(cpf));
+                posicao = buscarPosicaoCliente(clientes, *qtdClientes, cpf);
+                if (posicao != -1)
+                {
+                    exibirCliente(clientes[posicao]);
+                }
+                else
+                {
+                    cout << "Cliente nao encontrado!" << endl;
+                }
+                break;
+            case 3:
+                exibirListaClientes(clientes, *qtdClientes);
+                break;
+            case 4:
+                posicao = -1; // Reset the posicao variable
+                cout << "Digite o CPF do cliente que deseja atualizar: ";
+                cin.ignore();
+                cin.getline(cpf, sizeof(cpf));
+                posicao = buscarPosicaoCliente(clientes, *qtdClientes, cpf);
+                if (posicao != -1)
+                {
+                    atualizarCliente(clientes, *qtdClientes);
+                }
+                else
+                {
+                    cout << "Cliente nao encontrado!" << endl;
+                }
+                break;
+            case 5:
+                posicao = -1; // Reset the posicao variable
+                excluirCliente(clientes, qtdClientes);
+                break;
+            case 6:
+                break;
+            default:
+                cout << "Opcao invalida!" << endl;
+                break;
         }
         system("pause");
     }
@@ -550,7 +550,7 @@ void cadastrarNovoProfissional(Profissao *listaProfissoes,
             cin.ignore();
 
             if(listaProfissionais[*qntProfissionais].dataNascimento.dia > 0 &&
-            listaProfissionais[*qntProfissionais].dataNascimento.dia <= 31){
+               listaProfissionais[*qntProfissionais].dataNascimento.dia <= 31){
                 valid = 1;
             } else {
                 cout << "\nDia informado invalido, tente novamente!\n";
@@ -563,7 +563,7 @@ void cadastrarNovoProfissional(Profissao *listaProfissoes,
             cin.ignore();
 
             if(listaProfissionais[*qntProfissionais].dataNascimento.mes > 0 &&
-            listaProfissionais[*qntProfissionais].dataNascimento.mes <= 11){
+               listaProfissionais[*qntProfissionais].dataNascimento.mes <= 11){
                 valid = 2;
             }
             else {
@@ -577,7 +577,7 @@ void cadastrarNovoProfissional(Profissao *listaProfissoes,
             cin.ignore();
 
             if(listaProfissionais[*qntProfissionais].dataNascimento.ano > (2023-120) &&
-            listaProfissionais[*qntProfissionais].dataNascimento.ano <= (2023-18)){
+               listaProfissionais[*qntProfissionais].dataNascimento.ano <= (2023-18)){
                 valid = 3;
             }
             else {
@@ -778,18 +778,19 @@ void menuProfissional(Profissao *listaProfissao,
 
 // Começo dos métodos "Atendimento"
 
-void menuAtendimento (Atendimento *listaAtendimentos, int *qtdAtendimentos, Cliente *clientes, int *qtdClientes,
-                    Profissional *listaProfissionais, int *qntProfissionais);
-void cadastrarAtendimento (Atendimento *listaAtendimento, int *qtdAtendimentos, Cliente *clientes, int *qtdClientes,
-                          Profissional *listaProfissionais, int *qntProfissionais);
+void menuAtendimento(Atendimento *listaAtendimentos, int *qtdAtendimentos, Cliente *clientes, int qtdClientes,
+                     Profissional *listaProfissionais, int qntProfissionais);
+void cadastrarAtendimento(Atendimento *listaAtendimento, int *qtdAtendimentos, Cliente *clientes, int qtdClientes,
+                           Profissional *listaProfissionais, int qntProfissionais);
 
-void cadastrarAtendimento(Atendimento *listaAtendimento, int *qtdAtendimentos, Cliente *clientes, int *qtdClientes,
-                          Profissional *listaProfissionais, int *qntProfissionais){
-
+void cadastrarAtendimento(Atendimento *listaAtendimento, int *qtdAtendimentos, Cliente *clientes, int qtdClientes,
+                          Profissional *listaProfissionais, int qntProfissionais){
+    
 }
 
-void menuAtendimento(Atendimento *listaAtendimentos, int *qtdAtendimentos, Cliente *clientes, int &qtdClientes,
-                    Profissional *listaProfissionais, int *qntProfissionais){
+
+void menuAtendimento(Atendimento *listaAtendimentos, int *qtdAtendimentos, Cliente *clientes, int qtdClientes,
+                     Profissional *listaProfissionais, int qntProfissionais){
     int opcaomenu = 0;
     system ("cls");
 
@@ -806,25 +807,30 @@ void menuAtendimento(Atendimento *listaAtendimentos, int *qtdAtendimentos, Clien
         cin >> opcaomenu;
 
         switch (opcaomenu){
-        case 1:
-            cadastrarAtendimento(listaAtendimentos, qtdAtendimentos, clientes, &qtdClientes, listaProfissionais, qntProfissionais);
-            break;
-        case 2:
-            // Método atualizarAtendimento
-            break;
-        case 3:
-            //Método exibirAtendimento
-            break;
-        case 4:
-            //Método buscaAtendimento
-            break;
-        case 5:
-            //Metodo excluirAtendimento
-            break;
-        case 6:
-            break;
-        default :
-            cout << "Opcao Invalida\n";
+            case 1:
+                cadastrarAtendimento(listaAtendimentos,
+                                     qtdAtendimentos,
+                                     clientes,
+                                     qtdClientes,
+                                     listaProfissionais,
+                                     qntProfissionais);
+                break;
+            case 2:
+                // Método atualizarAtendimento
+                break;
+            case 3:
+                //Método exibirAtendimento
+                break;
+            case 4:
+                //Método buscaAtendimento
+                break;
+            case 5:
+                //Metodo excluirAtendimento
+                break;
+            case 6:
+                break;
+            default :
+                cout << "Opcao Invalida\n";
         }
     }
 
@@ -832,8 +838,7 @@ void menuAtendimento(Atendimento *listaAtendimentos, int *qtdAtendimentos, Clien
 
 //Fim dos metodos de Atendimento
 
-int main()
-{
+int main() {
     Cliente clientes[MAX_CLIENTES];
     Profissao listaProfissoes[LIMITVET];
     Profissional listaProfissionais[LIMITVET];
@@ -865,23 +870,28 @@ int main()
 
         switch (opcao)
         {
-        case 1:
-            menuClientes(clientes, &qtdClientes);
-            break;
-        case 2:
-            menuProfissoes(listaProfissoes, &qntProfissoes, &incCodigo);
-            break;
-        case 3:
-            menuProfissional(listaProfissoes,
-                             listaProfissionais,
-                             &qntProfissoes,
-                             &qntProfissionais,
-                             &incCodigo,
-                             &incMatricula);
-            break;
-        case 4:
-            menuAtendimento(listaAtendimentos, &qtdAtendimentos, clientes, &qtdClientes, listaProfissionais, &qntProfissionais);
-            break;
+            case 1:
+                menuClientes(clientes, &qtdClientes);
+                break;
+            case 2:
+                menuProfissoes(listaProfissoes, &qntProfissoes, &incCodigo);
+                break;
+            case 3:
+                menuProfissional(listaProfissoes,
+                                 listaProfissionais,
+                                 &qntProfissoes,
+                                 &qntProfissionais,
+                                 &incCodigo,
+                                 &incMatricula);
+                break;
+            case 4:
+                menuAtendimento(listaAtendimentos,
+                                &qtdAtendimentos,
+                                clientes,
+                                qtdClientes,
+                                listaProfissionais,
+                                qntProfissionais);
+                break;
         }
         system("pause");
     }
