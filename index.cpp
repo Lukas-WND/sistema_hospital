@@ -778,18 +778,66 @@ void menuProfissional(Profissao *listaProfissao,
 
 // Começo dos métodos "Atendimento"
 
-void menuAtendimento(Atendimento *listaAtendimentos, int *qtdAtendimentos, Cliente *clientes, int qtdClientes,
+void menuAtendimento(Atendimento *listaAtendimentos, int *qtdAtendimentos, Cliente *clientes, int *qtdClientes,
                      Profissional *listaProfissionais, int qntProfissionais);
-void cadastrarAtendimento(Atendimento *listaAtendimento, int *qtdAtendimentos, Cliente *clientes, int qtdClientes,
+void cadastrarAtendimento(Atendimento *listaAtendimento, int *qtdAtendimentos, Cliente *clientes, int *qtdClientes,
                            Profissional *listaProfissionais, int qntProfissionais);
 
-void cadastrarAtendimento(Atendimento *listaAtendimento, int *qtdAtendimentos, Cliente *clientes, int qtdClientes,
+void cadastrarAtendimento(Atendimento *listaAtendimento, int *qtdAtendimentos, Cliente *clientes, int *qtdClientes,
                           Profissional *listaProfissionais, int qntProfissionais){
+    char cpf[15];
+    int opcao1=0, w1=0;
+    system ("cls");
+    if (*qtdAtendimentos<MAX_ATENDIMENTO){
+    cout <<"-----------------------\n";
+    cout <<"Cadastro de Atendimento\n";
+    cout <<"-----------------------\n\n";
+    cout <<"Cliente ja foi cadastrado no Sistema?\n";
+    cout <<"1-Sim\n";
+    cout <<"2-Nao\n";
+    cin >> opcao1;
+
+    switch (opcao1){
+    case 1:
+        while(w1!=1){
+        system ("cls");
+        cout <<"-----------------------\n";
+        cout <<"    lISTA DE CLINTES   \n";
+        cout <<"-----------------------\n\n";
+        exibirListaClientes(clientes, *qtdClientes);
+        cout <<"\n";
+        cout <<"Informe o CPF do cliente: ";
+        cin.getline(cpf, sizeof(cpf));
+        int posicao = buscarPosicaoCliente(clientes, *qtdClientes, cpf);
+            if (posicao != -1)
+            {
+             w1 = 1;
+             listaAtendimento[*qtdAtendimentos].codCliente = &clientes[*qtdClientes];
+             cout << "Cliente registrado no Atendimento\n";
+            }
+            else
+            {
+                cout << "Cliente nao encontrado!" << endl;
+            }
+        }
+        break;
+    case 2:
+        cadastrarCliente(clientes, qtdClientes);
+        listaAtendimento[*qtdAtendimentos].codCliente = &clientes[*qtdClientes];
+        break;
+
+    }
+    system ("cls");
     
+    cout << "Parei Aqui, volto amanha\n\n";
+    
+    } else {
+    cout << "Maximo de Atendimentos cadastrados\n";
+    }
 }
 
 
-void menuAtendimento(Atendimento *listaAtendimentos, int *qtdAtendimentos, Cliente *clientes, int qtdClientes,
+void menuAtendimento(Atendimento *listaAtendimentos, int *qtdAtendimentos, Cliente *clientes, int *qtdClientes,
                      Profissional *listaProfissionais, int qntProfissionais){
     int opcaomenu = 0;
     system ("cls");
@@ -888,7 +936,7 @@ int main() {
                 menuAtendimento(listaAtendimentos,
                                 &qtdAtendimentos,
                                 clientes,
-                                qtdClientes,
+                                &qtdClientes,
                                 listaProfissionais,
                                 qntProfissionais);
                 break;
