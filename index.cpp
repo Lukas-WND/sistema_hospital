@@ -937,7 +937,7 @@ void cadastrarAtendimento(Atendimento *listaAtendimento, int *qtdAtendimentos, C
         cout << "Data cadastrada\n";
 
         cout << "Gerando registro de Atendimento";
-        listaAtendimento.numeroAtendimento = *qtdAtendimentos;
+        listaAtendimento->numeroAtendimento = *qtdAtendimentos;
         cout << "Cadastro do Atendimento finalizado";
     }
     else
