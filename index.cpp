@@ -48,7 +48,7 @@ typedef struct Profissional {
 
 typedef struct Cliente
 {
-    int matricula; // Primary Key
+    char matricula[5]; // Primary Key
     char cpf[15];
     char nome[50];
     Date dataNascimento;
@@ -67,7 +67,7 @@ typedef struct Atendimento {
 } Atendimento;
 
 // metodos cliente inicio
-int buscarPosicaoCliente(Cliente *clientes, int qtdClientes, char *cpf);
+int buscarPosicaoCliente(Cliente *clientes, int qtdClientes, char *matricula);
 void cadastrarCliente(Cliente *clientes, int *qtdClientes);
 void exibirCliente(Cliente cliente);
 void exibirListaClientes(Cliente clientes, int qtdClientes);
@@ -79,7 +79,7 @@ int buscarPosicaoCliente(Cliente *clientes, int qtdClientes, char *matricula)
 {
     for (int i = 0; i < qtdClientes; i++)
     {
-        if (clientes[i].matricula == *matricula)
+        if (strcmp(clientes[i].matricula, matricula) == 0)
         {
             return i;
         }
@@ -87,10 +87,27 @@ int buscarPosicaoCliente(Cliente *clientes, int qtdClientes, char *matricula)
     return -1;
 }
 
+char* getMatricula(int qtdCLientes, char *matricula){
+    //pegar a quantidade matriculas e adicionar 3 zeros a esquerda se menor 10, 2 se menor que 100 e 1 se menor que 1000
+    if(qtdCLientes < 10){
+        sprintf(matricula, "000%d", qtdCLientes + 1 );
+        return matricula;
+    }else if(qtdCLientes < 100){
+        sprintf(matricula, "00%d", qtdCLientes + 1 );
+        return matricula;
+    }else {
+        sprintf(matricula, "0%d", qtdCLientes+1);
+        return matricula;
+    }
+}
+
 void cadastrarCliente(Cliente *clientes, int *qtdClientes)
 {
     if (*qtdClientes < MAX_CLIENTES)
-    {
+    {   
+        char matricula[5];
+        strcpy(clientes[*qtdClientes].matricula, getMatricula(*qtdClientes, matricula));
+
         cin.ignore(); // Clear the input buffer
         cout << "Digite o nome do cliente: ";
         cin.getline(clientes[*qtdClientes].nome, sizeof(clientes[*qtdClientes].nome));
@@ -108,10 +125,11 @@ void cadastrarCliente(Cliente *clientes, int *qtdClientes)
         cin >> clientes[*qtdClientes].dataNascimento.ano;
         cout << "Digite o numero da casa do cliente: ";
         cin >> clientes[*qtdClientes].endereco.numero;
-        cin.ignore(); // Clear the newline character from the previous input
         cout << "Digite o nome da rua do cliente: ";
+        cin.ignore(); // Clear the newline character from the previous input
         cin.getline(clientes[*qtdClientes].endereco.rua, sizeof(clientes[*qtdClientes].endereco.rua));
         cout << "Digite o nome do bairro do cliente: ";
+        cin.ignore(); // Clear the newline character from the previous input
         cin.getline(clientes[*qtdClientes].endereco.bairro, sizeof(clientes[*qtdClientes].endereco.bairro));
         cout << "Digite o nome da cidade do cliente: ";
         cin.getline(clientes[*qtdClientes].endereco.cidade, sizeof(clientes[*qtdClientes].endereco.cidade));
@@ -130,6 +148,7 @@ void cadastrarCliente(Cliente *clientes, int *qtdClientes)
 void exibirCliente(Cliente cliente)
 {
     cout << "------------------------------------------------------------------------------------------" << endl;
+    cout << "Matricula: " << cliente.matricula << endl;
     cout << "Nome: " << cliente.nome << endl;
     cout << "CPF: " << cliente.cpf << endl;
     cout << "Email: " << cliente.email << endl;
@@ -227,7 +246,7 @@ void menuClientes(Cliente *clientes, int *qtdClientes)
 {
     int opcao = 0;
     int posicao = -1;
-    char cpf[12];
+    char matricula[5];
 
     while (opcao != 6)
     {
@@ -252,8 +271,8 @@ void menuClientes(Cliente *clientes, int *qtdClientes)
             case 2:
                 cout << "Digite o CPF do cliente que deseja exibir: ";
                 cin.ignore();
-                cin.getline(cpf, sizeof(cpf));
-                posicao = buscarPosicaoCliente(clientes, *qtdClientes, cpf);
+                cin.getline(matricula, sizeof(matricula));
+                posicao = buscarPosicaoCliente(clientes, *qtdClientes, matricula);
                 if (posicao != -1)
                 {
                     exibirCliente(clientes[posicao]);
@@ -270,8 +289,8 @@ void menuClientes(Cliente *clientes, int *qtdClientes)
                 posicao = -1; // Reset the posicao variable
                 cout << "Digite o CPF do cliente que deseja atualizar: ";
                 cin.ignore();
-                cin.getline(cpf, sizeof(cpf));
-                posicao = buscarPosicaoCliente(clientes, *qtdClientes, cpf);
+                cin.getline(matricula, sizeof(matricula));
+                posicao = buscarPosicaoCliente(clientes, *qtdClientes, matricula);
                 if (posicao != -1)
                 {
                     atualizarCliente(clientes, *qtdClientes);
