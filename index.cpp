@@ -787,7 +787,7 @@ void exibirAtendimento (Atendimento *listaAtendimento);
 
 
 void cadastrarAtendimento(Atendimento *listaAtendimento, int *qtdAtendimentos, Cliente *clientes, int *qtdClientes,
-                          Profissional *listaProfissionais){
+                          Profissional *listaProfissionais , int qntProfissionais){
     char cpf[15];
     int opcao1=0, w1=0, w2=0, matriculaP, numeroD, numAtendimento;
     system ("cls");
@@ -867,11 +867,11 @@ void cadastrarAtendimento(Atendimento *listaAtendimento, int *qtdAtendimentos, C
     }
 }
 
-void exibirAtendimento(Atendimento *listaAtendimento){
+void exibirAtendimento(Atendimento listaAtendimento){
     cout << "------------------------------------------------------------------------------------------\n";
-    cout << "Nome do Cliente: " << listaAtendimento.codCliente.nome;
-    cout << "Nome do Profissional: " << listaAtendimento.matProfissional.nome;
-    cout << "Data do Atendimento: " -> listaAtendimento.dataAtendimento.dia << "/" -> listaAtendimento.dataAtendimento.mes << "/" -> listaAtendimento.dataAtendimento.ano;
+    cout << "Nome do Cliente: " << listaAtendimento.codCliente->nome;
+    cout << "Nome do Profissional: " << listaAtendimento.matProfissional->nome;
+    cout << "Data do Atendimento: " << listaAtendimento.dataAtendimento.dia << "/" << listaAtendimento.dataAtendimento.mes << "/" << listaAtendimento.dataAtendimento.ano;
     cout << "Descricao: " << listaAtendimento.descricao;
     cout << "------------------------------------------------------------------------------------------";
 
@@ -901,8 +901,7 @@ void menuAtendimento(Atendimento *listaAtendimentos, int *qtdAtendimentos, Clien
                                      clientes,
                                      qtdClientes,
                                      listaProfissionais,
-                                     qntProfissionais
-                                     numAtendimento);
+                                     qntProfissionais);
                 break;
             case 2:
                 // Método atualizarAtendimento
