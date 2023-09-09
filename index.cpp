@@ -786,13 +786,13 @@ void cadastrarAtendimento(Atendimento *listaAtendimento, int *qtdAtendimentos, C
 void cadastrarAtendimento(Atendimento *listaAtendimento, int *qtdAtendimentos, Cliente *clientes, int *qtdClientes,
                           Profissional *listaProfissionais, int qntProfissionais){
     char cpf[15];
-    int opcao1=0, w1=0;
+    int opcao1=0, w1=0, w2=0, matriculaP, numeroD;
     system ("cls");
     if (*qtdAtendimentos<MAX_ATENDIMENTO){
     cout <<"-----------------------\n";
     cout <<"Cadastro de Atendimento\n";
     cout <<"-----------------------\n\n";
-    cout <<"Cliente ja foi cadastrado no Sistema?\n";
+    cout <<"O Cliente ja foi cadastrado no Sistema?\n";
     cout <<"1-Sim\n";
     cout <<"2-Nao\n";
     cin >> opcao1;
@@ -808,11 +808,11 @@ void cadastrarAtendimento(Atendimento *listaAtendimento, int *qtdAtendimentos, C
         cout <<"\n";
         cout <<"Informe o CPF do cliente: ";
         cin.getline(cpf, sizeof(cpf));
-        int posicao = buscarPosicaoCliente(clientes, *qtdClientes, cpf);
-            if (posicao != -1)
+        int posicaoC = buscarPosicaoCliente(clientes, *qtdClientes, cpf);
+            if (posicaoC != -1)
             {
              w1 = 1;
-             listaAtendimento[*qtdAtendimentos].codCliente = &clientes[*qtdClientes];
+             listaAtendimento[*qtdAtendimentos].codCliente = &clientes[posicaoC];
              cout << "Cliente registrado no Atendimento\n";
             }
             else
@@ -828,9 +828,35 @@ void cadastrarAtendimento(Atendimento *listaAtendimento, int *qtdAtendimentos, C
 
     }
     system ("cls");
+    while (w2!=1){
+    cout << "Escolha um profissional para o atendimento: \n\n";
+    exibirListaProfissionais(listaProfissionais, qntProfissionais);
+    cout << "Informe a matricula do profissional: ";
+    cin >> matriculaP;
+    int posicaoP = buscarPosicaoProfissional(listaProfissionais, qntProfissionais, matriculaP);
+    if (posicaoP != -1)
+            {
+             w2 = 1;
+             listaAtendimento[*qtdAtendimentos].matProfissional = &listaProfissionais[posicaoP];
+             cout << "Profissional registrado no Atendimento\n";
+            }
+            else
+            {
+                cout << "Profissional nao encontrado!" << endl;
+            }
+        }
+    system ("cls");
+    cout << "Digite o dia do Atendimento: ";
+    cin >> listaAtendimento[*qtdAtendimentos].dataAtendimento.dia;
+    cout << "\nDigite o mes do Atendimento: ";
+    cin >> listaAtendimento[*qtdAtendimentos].dataAtendimento.mes;
+    cout << "\nDigite o ano do Atendimento: ";
+    cin >> listaAtendimento[*qtdAtendimentos].dataAtendimento.ano;
+    cout << "Data cadastrada\n";
+
+    cout << "Gerando registro de Atendimento";
     
-    cout << "Parei Aqui, volto amanha\n\n";
-    
+
     } else {
     cout << "Maximo de Atendimentos cadastrados\n";
     }
