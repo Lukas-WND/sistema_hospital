@@ -783,8 +783,8 @@ void menuAtendimento(Atendimento *listaAtendimentos, int *qtdAtendimentos, Clien
                      Profissional *listaProfissionais, int qntProfissionais);
 void cadastrarAtendimento(Atendimento *listaAtendimento, int *qtdAtendimentos, Cliente *clientes, int *qtdClientes,
                            Profissional *listaProfissionais, int qntProfissionais);
-void exibirAtendimento (Atendimento *listaAtendimento);
-
+void exibirAtendimento (Atendimento listaAtendimento);
+void exibirListaAtendimento(Atendimento *listaAtendimento, int qtdAtendimentos);
 
 void cadastrarAtendimento(Atendimento *listaAtendimento, int *qtdAtendimentos, Cliente *clientes, int *qtdClientes,
                           Profissional *listaProfissionais , int qntProfissionais){
@@ -856,11 +856,11 @@ void cadastrarAtendimento(Atendimento *listaAtendimento, int *qtdAtendimentos, C
     cout << "\nDigite o ano do Atendimento: ";
     cin >> listaAtendimento[*qtdAtendimentos].dataAtendimento.ano;
     cout << "Data cadastrada\n";
-    cout >> "Descricao do Atendimento (max = 500 caracteres)\n";
-    cin.getline >> listaAtendimento.descricao;
+    cout << "Descricao do Atendimento 'max = 500 caracteres'\n";
+    //cin.getline >> listaAtendimento->descricao;
 
     cout << "Gerando registro de Atendimento";
-    listaAtendimento.numeroAtendimento = *qtdAtendimentos;
+    listaAtendimento->numeroAtendimento = *qtdAtendimentos;
     cout << "Cadastro do Atendimento finalizado";
     } else {
     cout << "Maximo de Atendimentos cadastrados\n";
@@ -875,6 +875,13 @@ void exibirAtendimento(Atendimento listaAtendimento){
     cout << "Descricao: " << listaAtendimento.descricao;
     cout << "------------------------------------------------------------------------------------------";
 
+}
+
+void exibirListaAtendimento(Atendimento *listaAtendimento, int qtdAtendimentos){
+
+    for(int i = 0; i < qtdAtendimentos; i++){
+        exibirAtendimento(listaAtendimento[i]);
+    }
 }
 
 void menuAtendimento(Atendimento *listaAtendimentos, int *qtdAtendimentos, Cliente *clientes, int *qtdClientes,
@@ -907,7 +914,7 @@ void menuAtendimento(Atendimento *listaAtendimentos, int *qtdAtendimentos, Clien
                 // Método atualizarAtendimento
                 break;
             case 3:
-                exibirAtendimento (listaAtendimentos);
+                exibirListaAtendimento(listaAtendimentos, *qtdAtendimentos);
                 break;
             case 4:
                 //Método buscaAtendimento
@@ -919,6 +926,7 @@ void menuAtendimento(Atendimento *listaAtendimentos, int *qtdAtendimentos, Clien
                 break;
             default :
                 cout << "Opcao Invalida\n";
+                break;
         }
     }
 
