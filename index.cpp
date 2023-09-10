@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <locale.h>
+#include <time.h>
 
 #define MAX_CLIENTES 10
 #define MAX_ATENDIMENTO 10
@@ -62,7 +63,7 @@ typedef struct Cliente
 
 typedef struct Atendimento
 {
-    int numeroAtendimento;         // Primary Key
+    char numeroAtendimento[5];     // Primary Key
     Profissional *matProfissional; // Foreing Key
     Cliente *codCliente;           // Foreing Key
     Date dataAtendimento;
@@ -341,55 +342,55 @@ void menuClientes(Cliente *clientes, int *qtdClientes)
 
         switch (opcao)
         {
-            case 1:
-                cadastrarCliente(clientes, qtdClientes);
-                break;
-            case 2:
-                posicao = -1; // Reset the posicao variable
-                cout << "Digite a matricula do cliente que deseja exibir: ";
-                cin.ignore();
-                cin.getline(matricula, sizeof(matricula));
-                posicao = buscarPosicaoCliente(clientes, *qtdClientes, matricula);
-                if (posicao != -1)
-                {
-                    exibirCliente(clientes[posicao]);
-                }
-                else
-                {
-                    cout << "Cliente nao encontrado!" << endl;
-                }
-                break;
-            case 3:
-                exibirListaClientes(clientes, *qtdClientes);
-                break;
-            case 4:
-                posicao = -1; // Reset the posicao variable
-                cout << "__________________________________________________________" << endl;
-                cout << "Usuarios cadastrados: " << endl;
-                exibirListaClientes(clientes, *qtdClientes);
-                cout << "__________________________________________________________" << endl;
-                cout << "Digite a matricula do cliente que deseja alterar: ";
-                cin.ignore();
-                cin.getline(matricula, sizeof(matricula));
-                posicao = buscarPosicaoCliente(clientes, *qtdClientes, matricula);
-                if (posicao != -1)
-                {
-                    atualizarCliente(clientes, *qtdClientes, posicao);
-                }
-                else
-                {
-                    cout << "Cliente nao encontrado!" << endl;
-                }
-                break;
-            case 5:
-                posicao = -1; // Reset the posicao variable
-                excluirCliente(clientes, qtdClientes);
-                break;
-            case 6:
-                break;
-            default:
-                cout << "Opcao invalida!" << endl;
-                break;
+        case 1:
+            cadastrarCliente(clientes, qtdClientes);
+            break;
+        case 2:
+            posicao = -1; // Reset the posicao variable
+            cout << "Digite a matricula do cliente que deseja exibir: ";
+            cin.ignore();
+            cin.getline(matricula, sizeof(matricula));
+            posicao = buscarPosicaoCliente(clientes, *qtdClientes, matricula);
+            if (posicao != -1)
+            {
+                exibirCliente(clientes[posicao]);
+            }
+            else
+            {
+                cout << "Cliente nao encontrado!" << endl;
+            }
+            break;
+        case 3:
+            exibirListaClientes(clientes, *qtdClientes);
+            break;
+        case 4:
+            posicao = -1; // Reset the posicao variable
+            cout << "__________________________________________________________" << endl;
+            cout << "Usuarios cadastrados: " << endl;
+            exibirListaClientes(clientes, *qtdClientes);
+            cout << "__________________________________________________________" << endl;
+            cout << "Digite a matricula do cliente que deseja alterar: ";
+            cin.ignore();
+            cin.getline(matricula, sizeof(matricula));
+            posicao = buscarPosicaoCliente(clientes, *qtdClientes, matricula);
+            if (posicao != -1)
+            {
+                atualizarCliente(clientes, *qtdClientes, posicao);
+            }
+            else
+            {
+                cout << "Cliente nao encontrado!" << endl;
+            }
+            break;
+        case 5:
+            posicao = -1; // Reset the posicao variable
+            excluirCliente(clientes, qtdClientes);
+            break;
+        case 6:
+            break;
+        default:
+            cout << "Opcao invalida!" << endl;
+            break;
         }
         system("pause");
     }
@@ -558,33 +559,33 @@ void menuProfissoes(Profissao *listaProfissoes, int *qntProfissoes, int *incCodi
 
         switch (menu)
         {
-            case 1:
-            {
-                exibirListaProfissoes(listaProfissoes, *qntProfissoes);
-                break;
-            }
-            case 2:
-            {
-                cadastrarNovaProfissao(listaProfissoes, qntProfissoes, incCodigo);
-                break;
-            }
-            case 3:
-            {
-                atualizarProfissao(listaProfissoes, *qntProfissoes);
-                break;
-            }
-            case 4:
-            {
-                deletarProfissao(listaProfissoes, qntProfissoes);
-                break;
-            }
-            case 5:
-            {
-                cout << "\nAte a proxima!\n";
-                break;
-            }
-            default:
-                cout << "\nOpcao nao reconhecida, tente novamente!\n";
+        case 1:
+        {
+            exibirListaProfissoes(listaProfissoes, *qntProfissoes);
+            break;
+        }
+        case 2:
+        {
+            cadastrarNovaProfissao(listaProfissoes, qntProfissoes, incCodigo);
+            break;
+        }
+        case 3:
+        {
+            atualizarProfissao(listaProfissoes, *qntProfissoes);
+            break;
+        }
+        case 4:
+        {
+            deletarProfissao(listaProfissoes, qntProfissoes);
+            break;
+        }
+        case 5:
+        {
+            cout << "\nAte a proxima!\n";
+            break;
+        }
+        default:
+            cout << "\nOpcao nao reconhecida, tente novamente!\n";
         }
     }
 }
@@ -916,38 +917,38 @@ void menuProfissional(Profissao *listaProfissao,
 
         switch (menu)
         {
-            case 1:
-            {
-                exibirListaProfissionais(listaProfissionais, *qntProfissionais);
-                break;
-            }
-            case 2:
-            {
-                cadastrarNovoProfissional(listaProfissao,
-                                          listaProfissionais,
-                                          qntProfissoes,
-                                          qntProfissionais,
-                                          incCodigo,
-                                          incMatricula);
-                break;
-            }
-            case 3:
-            {
-                atualizarProfissional(listaProfissao, listaProfissionais, *qntProfissoes, *qntProfissionais);
-                break;
-            }
-            case 4:
-            {
-                deletarProfissional(listaProfissionais, qntProfissionais);
-                break;
-            }
-            case 5:
-            {
-                cout << "\nAta a proxima!\n\n";
-                break;
-            }
-            default:
-                cout << "\nOpcao nao reconhecida, tente novamente!\n\n";
+        case 1:
+        {
+            exibirListaProfissionais(listaProfissionais, *qntProfissionais);
+            break;
+        }
+        case 2:
+        {
+            cadastrarNovoProfissional(listaProfissao,
+                                      listaProfissionais,
+                                      qntProfissoes,
+                                      qntProfissionais,
+                                      incCodigo,
+                                      incMatricula);
+            break;
+        }
+        case 3:
+        {
+            atualizarProfissional(listaProfissao, listaProfissionais, *qntProfissoes, *qntProfissionais);
+            break;
+        }
+        case 4:
+        {
+            deletarProfissional(listaProfissionais, qntProfissionais);
+            break;
+        }
+        case 5:
+        {
+            cout << "\nAta a proxima!\n\n";
+            break;
+        }
+        default:
+            cout << "\nOpcao nao reconhecida, tente novamente!\n\n";
         }
     }
 }
@@ -960,10 +961,29 @@ void cadastrarAtendimento(Atendimento *listaAtendimento, int *qtdAtendimentos, C
                           Profissional *listaProfissionais, int qntProfissionais);
 void exibirAtendimento(Atendimento listaAtendimento);
 void exibirListaAtendimento(Atendimento *listaAtendimento, int qtdAtendimentos);
-void bucarAtendimento (Atendimento *listaAtendimento, int qtdAtendimentos);
+int buscarAtendimento(Atendimento *listaAtendimento, int qtdAtendimentos);
 void atualizarAtendimento(Atendimento *listaAtendimento, int *qtdAtendimentos, Cliente *clientes, int *qtdClientes,
                           Profissional *listaProfissionais, int qntProfissionais);
 void deletarAtendimento(Atendimento *listaAtendimento, int *qtdAtendimentos);
+
+char *getNumeroAtendimento(int qtdAtendimentos, char *numeroAtendimento)
+{
+    if (qtdAtendimentos < 10)
+    {
+        sprintf(numeroAtendimento, "000%d", qtdAtendimentos + 1);
+        return numeroAtendimento;
+    }
+    else if (qtdAtendimentos < 100)
+    {
+        sprintf(numeroAtendimento, "00%d", qtdAtendimentos + 1);
+        return numeroAtendimento;
+    }
+    else
+    {
+        sprintf(numeroAtendimento, "0%d", qtdAtendimentos + 1);
+        return numeroAtendimento;
+    }
+}
 
 void cadastrarAtendimento(Atendimento *listaAtendimento, int *qtdAtendimentos, Cliente *clientes, int *qtdClientes,
                           Profissional *listaProfissionais, int qntProfissionais)
@@ -973,6 +993,9 @@ void cadastrarAtendimento(Atendimento *listaAtendimento, int *qtdAtendimentos, C
     system("cls");
     if (*qtdAtendimentos < MAX_ATENDIMENTO)
     {
+        char numeroAtendimento[5];
+        strcpy(listaAtendimento[*qtdAtendimentos].numeroAtendimento, getNumeroAtendimento(*qtdAtendimentos, numeroAtendimento));
+        
         cout << "-----------------------\n";
         cout << "Cadastro de Atendimento\n";
         cout << "-----------------------\n\n";
@@ -983,34 +1006,34 @@ void cadastrarAtendimento(Atendimento *listaAtendimento, int *qtdAtendimentos, C
 
         switch (opcao1)
         {
-            case 1:
-                while (w1 != 1)
+        case 1:
+            while (w1 != 1)
+            {
+                system("cls");
+                cout << "-----------------------\n";
+                cout << "    lISTA DE CLIENTES   \n";
+                cout << "-----------------------\n\n";
+                exibirListaClientes(clientes, *qtdClientes);
+                cout << "\n";
+                cout << "Informe a matricula do cliente: ";
+                cin.getline(matricula, sizeof(matricula));
+                int posicaoC = buscarPosicaoCliente(clientes, *qtdClientes, matricula);
+                if (posicaoC != -1)
                 {
-                    system("cls");
-                    cout << "-----------------------\n";
-                    cout << "    lISTA DE CLIENTES   \n";
-                    cout << "-----------------------\n\n";
-                    exibirListaClientes(clientes, *qtdClientes);
-                    cout << "\n";
-                    cout << "Informe a matricula do cliente: ";
-                    cin.getline(matricula, sizeof(matricula));
-                    int posicaoC = buscarPosicaoCliente(clientes, *qtdClientes, matricula);
-                    if (posicaoC != -1)
-                    {
-                        w1 = 1;
-                        listaAtendimento[*qtdAtendimentos].codCliente = &clientes[posicaoC];
-                        cout << "Cliente registrado no Atendimento\n";
-                    }
-                    else
-                    {
-                        cout << "Cliente nao encontrado!" << endl;
-                    }
+                    w1 = 1;
+                    listaAtendimento[*qtdAtendimentos].codCliente = &clientes[posicaoC];
+                    cout << "Cliente registrado no Atendimento\n";
                 }
-                break;
-            case 2:
-                cadastrarCliente(clientes, qtdClientes);
-                listaAtendimento[*qtdAtendimentos].codCliente = &clientes[*qtdClientes];
-                break;
+                else
+                {
+                    cout << "Cliente nao encontrado!" << endl;
+                }
+            }
+            break;
+        case 2:
+            cadastrarCliente(clientes, qtdClientes);
+            listaAtendimento[*qtdAtendimentos].codCliente = &clientes[*qtdClientes - 1];
+            break;
         }
         system("cls");
         while (w2 != 1)
@@ -1044,11 +1067,9 @@ void cadastrarAtendimento(Atendimento *listaAtendimento, int *qtdAtendimentos, C
         cout << "Data cadastrada\n";
         cout << "Descricao do Atendimento 'max = 500 caracteres'\n";
         cin.ignore();
-        cin.getline(listaAtendimento[*qtdAtendimentos].descricao, sizeof(listaAtendimento[*qtdAtendimentos].descricao));
+        cin.getline(listaAtendimento[*qtdAtendimentos].descricao, 500);
         cout << "Gerando registro de Atendimento" << endl;
-        listaAtendimento->numeroAtendimento = *qtdAtendimentos;
         cout << "Cadastro do Atendimento finalizado" << endl;
-        //cls
         (*qtdAtendimentos)++;
         system("cls");
     }
@@ -1061,11 +1082,12 @@ void cadastrarAtendimento(Atendimento *listaAtendimento, int *qtdAtendimentos, C
 void exibirAtendimento(Atendimento listaAtendimento)
 {
     cout << "------------------------------------------------------------------------------------------" << endl;
+    cout << "Numero do Atendimento: " << listaAtendimento.numeroAtendimento << endl;
     cout << "Nome do Cliente: " << listaAtendimento.codCliente->nome << endl;
     cout << "Nome do Profissional: " << listaAtendimento.matProfissional->nome << endl;
     cout << "Data do Atendimento: " << listaAtendimento.dataAtendimento.dia << "/" << listaAtendimento.dataAtendimento.mes << "/" << listaAtendimento.dataAtendimento.ano << endl;
     cout << "Descricao: " << listaAtendimento.descricao << endl;
-    cout << "------------------------------------------------------------------------------------------";
+    cout << "------------------------------------------------------------------------------------------" << endl;
 }
 
 void exibirListaAtendimento(Atendimento *listaAtendimento, int qtdAtendimentos)
@@ -1077,132 +1099,142 @@ void exibirListaAtendimento(Atendimento *listaAtendimento, int qtdAtendimentos)
     }
 }
 
-int buscarAtendimento(Atendimento *listaAtendimento, int qtdAtendimentos){
+int buscarAtendimento(Atendimento *listaAtendimento, int qtdAtendimentos, char *numeroAtendimento)
+{
 
-    int nAtendimento;
-
-    cout << "Informe o numero do Atendimento: ";
-    cin >> nAtendimento;
-    for (int i=0; i<=qtdAtendimentos;i++){
-        if (nAtendimento == listaAtendimento->numeroAtendimento){
-        return i;
-        } else{
-        return -1;
+    for (int i = 0; i < qtdAtendimentos; i++)
+    {
+        if (strcmp(listaAtendimento[i].numeroAtendimento, numeroAtendimento) == 0)
+        {
+            return i;
         }
     }
-
+    return -1;
 }
 
 void atualizarAtendimento(Atendimento *listaAtendimento, int *qtdAtendimentos, Cliente *clientes, int *qtdClientes,
-                          Profissional *listaProfissionais, int qntProfissionais){
-
+                          Profissional *listaProfissionais, int qntProfissionais)
+{
     char matricula[5];
-    int opcao1 = 0, opcao2 = 0, w1 = 0, w2 = 0, matriculaP, numeroD,repeticao=0, encontrar= 0;
-
-    while (encontrar !=0){
-    int atualizar = bucarAtendimento(&listaAtendimento, qtdAtendimentos);
-    if (atualizar !=-1){
-    while(repeticao !=1){
-    cout << "Qual opcao a baixo gostaria de atualizar?\n";
-    cout << "1 - Cliente\n";
-    cout << "2 - Profissional\n";
-    cout << "3 - Data\n";
-    cout << "4 - Descrição";
-    cin >> opcao1;
-
-    switch (opcao1){
-
-        case 1:
-            while (w1 != 1){
-                system("cls");
-                cout << "-----------------------\n";
-                cout << "    lISTA DE CLIENTES   \n";
-                cout << "-----------------------\n\n";
-                exibirListaClientes(clientes, *qtdClientes);
-                cout << "\n";
-                cout << "Informe a matricula do novo cliente: ";
-                cin.getline(matricula, sizeof(matricula));
-                int posicaoC = buscarPosicaoCliente(clientes, *qtdClientes, matricula);
-                if (posicaoC != -1)
-                {
-                    w1 = 1;
-                    listaAtendimento[atualizar].codCliente = &clientes[posicaoC];
-                    cout << "Cliente registrado no Atendimento\n";
-                }
-                else
-                {
-                    cout << "Cliente nao encontrado!" << endl;
-                }
-            }
-            break;
-        case 2:
-            system("cls");
-            while (w2 != 1)
+    int opcao1 = 0, opcao2 = 0, w1 = 0, w2 = 0, matriculaP, numeroD, repeticao = 0, encontrar = 0;
+    char numeroAtendimento[5];
+    while (encontrar != 1)
+    {
+        system("cls");
+        cout << "-----------------------\n";
+        cout << "Atualizar Atendimento\n";
+        cout << "-----------------------\n\n";
+        cout << "Informe o numero do Atendimento: ";
+        cin.ignore();
+        cin.getline(numeroAtendimento, sizeof(numeroAtendimento));
+        int atualizar = buscarAtendimento(listaAtendimento, *qtdAtendimentos, numeroAtendimento);
+        if (atualizar != -1)
+        {
+            while (repeticao != 1)
             {
-                cout << "Escolha um profissional para o atendimento: \n\n";
-                cout << "---------------------------\n";
-                cout << "    Lista de Profissionais   \n";
-                cout << "---------------------------\n\n";
-                exibirListaProfissionais(listaProfissionais, qntProfissionais);
-                cout << "Informe a matricula do profissional: ";
-                cin >> matriculaP;
-                int posicaoP = buscarPosicaoProfissional(listaProfissionais, qntProfissionais, matriculaP);
-                if (posicaoP != -1)
+                cout << "Qual opcao a baixo gostaria de atualizar?\n";
+                cout << "1 - Cliente\n";
+                cout << "2 - Profissional\n";
+                cout << "3 - Data\n";
+                cout << "4 - Descrição\n";
+                cout << "5 - Sair\n";
+                cin >> opcao1;
+
+                switch (opcao1)
                 {
-                    w2 = 1;
-                    listaAtendimento[atualizar].matProfissional = &listaProfissionais[posicaoP];
-                    cout << "Profissional registrado no Atendimento\n";
-                }
-                else
-                {
-                    cout << "Profissional nao encontrado!" << endl;
+
+                case 1:
+                    while (w1 != 1)
+                    {
+                        system("cls");
+                        cout << "-----------------------\n";
+                        cout << "    lISTA DE CLIENTES   \n";
+                        cout << "-----------------------\n\n";
+                        exibirListaClientes(clientes, *qtdClientes);
+                        cout << "\n";
+                        cout << "Informe a matricula do novo cliente: ";
+                        cin.getline(matricula, sizeof(matricula));
+                        int posicaoC = buscarPosicaoCliente(clientes, *qtdClientes, matricula);
+                        if (posicaoC != -1)
+                        {
+                            w1 = 1;
+                            listaAtendimento[atualizar].codCliente = &clientes[posicaoC];
+                            cout << "Cliente registrado no Atendimento\n";
+                        }
+                        else
+                        {
+                            cout << "Cliente nao encontrado!" << endl;
+                        }
+                    }
+                    break;
+                case 2:
+                    system("cls");
+                    while (w2 != 1)
+                    {
+                        cout << "Escolha um profissional para o atendimento: \n\n";
+                        cout << "---------------------------\n";
+                        cout << "    Lista de Profissionais   \n";
+                        cout << "---------------------------\n\n";
+                        exibirListaProfissionais(listaProfissionais, qntProfissionais);
+                        cout << "Informe a matricula do profissional: ";
+                        cin >> matriculaP;
+                        int posicaoP = buscarPosicaoProfissional(listaProfissionais, qntProfissionais, matriculaP);
+                        if (posicaoP != -1)
+                        {
+                            w2 = 1;
+                            listaAtendimento[atualizar].matProfissional = &listaProfissionais[posicaoP];
+                            cout << "Profissional registrado no Atendimento\n";
+                        }
+                        else
+                        {
+                            cout << "Profissional nao encontrado!" << endl;
+                        }
+                    }
+                    break;
+                case 3:
+                    system("cls");
+                    cout << "Digite o novo dia do Atendimento: ";
+                    cin >> listaAtendimento[atualizar].dataAtendimento.dia;
+                    cout << "\nDigite o novo mes do Atendimento: ";
+                    cin >> listaAtendimento[atualizar].dataAtendimento.mes;
+                    cout << "\nDigite o novo ano do Atendimento: ";
+                    cin >> listaAtendimento[atualizar].dataAtendimento.ano;
+                    cout << "Data atualizada\n";
+                    break;
+                case 4:
+                    cout << "Descricao do Atendimento 'max = 500 caracteres'\n";
+                    cin.ignore();
+                    cin.getline(listaAtendimento[atualizar].descricao, sizeof(listaAtendimento[atualizar].descricao));
+                    break;
+                case 5:
+                    repeticao = 1;
+                    encontrar = 1;
+                    break;
+                default:
+                    cout << "Digito nao valido\n";
+                    break;
                 }
             }
-            break;
-        case 3:
-            system("cls");
-            cout << "Digiteo novo dia do Atendimento: ";
-            cin >> listaAtendimento[atualizar].dataAtendimento.dia;
-            cout << "\nDigite o novo mes do Atendimento: ";
-            cin >> listaAtendimento[atualizar].dataAtendimento.mes;
-            cout << "\nDigite o novo ano do Atendimento: ";
-            cin >> listaAtendimento[atualizar].dataAtendimento.ano;
-            cout << "Data atualizada\n";
-            break;
-        case 4:
-            cout << "Descricao do Atendimento 'max = 500 caracteres'\n";
-            cin.ignore();
-            cin.getline(listaAtendimento[atualizar].descricao, sizeof(listaAtendimento[atualizar].descricao));
-            break;
-        default :
-            cout << "Digito nao valido\n";
-            break;
-
-        cout << "Deseja fazer mais alteracoes?\n";
-        cout << "1-Sim\n";
-        cout << "2-Nao\n";
-        cin << opcao2;
-        if (opcao2 == 1){
-
-        }else {
-            repeticao = 1;
-            encontrar = 1;
         }
-
+        else
+        {
+            cout << "Atendimento nao encontrado\n";
         }
-    }
-    }else{
-        cout << "Atendimento nao encontrado\n";
-    }
     }
 }
 
-void deletarAtendimento(Atendimento *listaAtendimento, int qtdAtendimentos){
-    
-    cout << "----------------------\n"
+void deletarAtendimento(Atendimento *listaAtendimento, int *qtdAtendimentos)
+{
+
+    cout << "----------------------\n";
     cout << "  Excluir atendimento\n";
-    cout << "----------------------\n"
-    int excluir = bucarAtendimento(&listaAtendimento, qtdAtendimentos);
+    cout << "----------------------\n";
+    cout << "Informe o numero do Atendimento: ";
+    char numeroAtendimento[5];
+    cin.ignore();
+    cin.getline(numeroAtendimento, sizeof(numeroAtendimento));
+
+    int excluir = buscarAtendimento(listaAtendimento, *qtdAtendimentos, numeroAtendimento);
     if (excluir != -1)
     {
         for (int i = excluir; i < *qtdAtendimentos; i++)
@@ -1215,7 +1247,6 @@ void deletarAtendimento(Atendimento *listaAtendimento, int qtdAtendimentos){
     {
         cout << "Atendimento nao encontrado!";
     }
-    
 }
 
 void menuAtendimento(Atendimento *listaAtendimentos, int *qtdAtendimentos, Cliente *clientes, int *qtdClientes,
@@ -1224,7 +1255,7 @@ void menuAtendimento(Atendimento *listaAtendimentos, int *qtdAtendimentos, Clien
     int opcaomenu = 0;
     system("cls");
 
-    while (opcaomenu != 6)
+    while (opcaomenu != 5)
     {
         fflush(stdin);
         cout << "Bem vindo ao Menu Atendimento \n";
@@ -1238,32 +1269,32 @@ void menuAtendimento(Atendimento *listaAtendimentos, int *qtdAtendimentos, Clien
 
         switch (opcaomenu)
         {
-            case 1:
-                cadastrarAtendimento(listaAtendimentos,
-                                     qtdAtendimentos,
-                                     clientes,
-                                     qtdClientes,
-                                     listaProfissionais,
-                                     qntProfissionais);
-                break;
-            case 2:
-                atualizarAtendimento(listaAtendimentos,
-                                     qtdAtendimentos,
-                                     clientes,
-                                     qtdClientes,
-                                     listaProfissionais,
-                                     qntProfissionais);
-                break;
-            case 3:
-                exibirListaAtendimento(listaAtendimentos, qtdAtendimentos);
-                break;
-            case 4:
-                deletarAtendimento(listaAtendimentos, qtdAtendimentos);
-            case 5:
-                break;
-            default:
-                cout << "Opcao Invalida\n";
-                break;
+        case 1:
+            cadastrarAtendimento(listaAtendimentos,
+                                 qtdAtendimentos,
+                                 clientes,
+                                 qtdClientes,
+                                 listaProfissionais,
+                                 qntProfissionais);
+            break;
+        case 2:
+            atualizarAtendimento(listaAtendimentos,
+                                 qtdAtendimentos,
+                                 clientes,
+                                 qtdClientes,
+                                 listaProfissionais,
+                                 qntProfissionais);
+            break;
+        case 3:
+            exibirListaAtendimento(listaAtendimentos, *qtdAtendimentos);
+            break;
+        case 4:
+            deletarAtendimento(listaAtendimentos, qtdAtendimentos);
+            break;
+        case 5:
+            break;
+        default:
+            cout << "Opcao Invalida\n";
         }
     }
 }
@@ -1272,11 +1303,13 @@ void menuAtendimento(Atendimento *listaAtendimentos, int *qtdAtendimentos, Clien
 
 // Início dos métodos de Consultas
 
-void profissionaisAniversariantes(Date dataAtual, Profissional *listaProfissionais, int qtdProfissionais){
+void profissionaisAniversariantes(Date dataAtual, Profissional *listaProfissionais, int qtdProfissionais)
+{
     int opcao, countAniv = 0, mesAniversario = 0;
     system("cls");
 
-    while(opcao != 3){
+    while (opcao != 3)
+    {
         cout << "Deseja saber os aniversariantes do mes atual ou de outro?" << endl;
         cout << "1 - Do mes atual" << endl;
         cout << "2 - De outro mes" << endl;
@@ -1284,73 +1317,89 @@ void profissionaisAniversariantes(Date dataAtual, Profissional *listaProfissiona
         cin.ignore();
         cin >> opcao;
 
-        switch(opcao){
-            case 1:
-                for(int i = 0; i < qtdProfissionais; i++){
-                    if(listaProfissionais[i].dataNascimento.mes == dataAtual.mes){
+        switch (opcao)
+        {
+        case 1:
+            for (int i = 0; i < qtdProfissionais; i++)
+            {
+                if (listaProfissionais[i].dataNascimento.mes == dataAtual.mes)
+                {
+                    countAniv++;
+                }
+            }
+
+            if (countAniv == 0)
+            {
+                cout << "\nNao ha aniversariantes neste mes!" << endl;
+            }
+            else
+            {
+                Profissional aniversariantes[countAniv];
+                countAniv = 0;
+
+                for (int i = 0; i < qtdProfissionais; i++)
+                {
+                    if (listaProfissionais[i].dataNascimento.mes == dataAtual.mes)
+                    {
+                        aniversariantes[countAniv] = listaProfissionais[i];
                         countAniv++;
                     }
                 }
 
-                if(countAniv == 0){
-                    cout << "\nNao ha aniversariantes neste mes!" << endl;
-                } else {
-                    Profissional aniversariantes[countAniv];
+                cout << "\nLista de profissionais aniversariantes desse mes:" << endl;
+                exibirListaProfissionais(aniversariantes, countAniv);
+            }
+            break;
+        case 2:
+            while (mesAniversario > 12 || mesAniversario < 1)
+            {
+                cout << "\nInforme o mes que deseja buscar aniversariantes da instituicao: ";
+                cin >> mesAniversario;
 
-                    countAniv = 0;
-                    for(int i = 0; i < qtdProfissionais; i++){
-                        if(listaProfissionais[i].dataNascimento.mes == dataAtual.mes){
-                            aniversariantes[countAniv] = listaProfissionais[i];
-                            countAniv++;
-                        }
-                    }
-
-                    cout << "\nLista de profissionais aniversariantes desse mes:" << endl;
-                    exibirListaProfissionais(aniversariantes, countAniv);
+                if (mesAniversario < 1 || mesAniversario > 12)
+                {
+                    cout << "\nMes invalido, tente novamente" << endl;
                 }
-                break;
-            case 2:
-                while(mesAniversario > 12 || mesAniversario < 1){
-                    cout << "\nInforme o mes que deseja buscar aniversariantes da instituicao: ";
-                    cin >> mesAniversario;
+            }
 
-                    if(mesAniversario < 1 || mesAniversario > 12){
-                        cout << "\nMes invalido, tente novamente" << endl;
-                    }
+            for (int i = 0; i < qtdProfissionais; i++)
+            {
+                if (listaProfissionais[i].dataNascimento.mes == mesAniversario)
+                {
+                    countAniv++;
                 }
+            }
 
-                for(int i = 0; i < qtdProfissionais; i++){
-                    if(listaProfissionais[i].dataNascimento.mes == mesAniversario){
+            if (countAniv == 0)
+            {
+                cout << "\nNao ha aniversariantes no mes selecionado!" << endl;
+            }
+            else
+            {
+                Profissional aniversariantes[countAniv];
+
+                countAniv = 0;
+                for (int i = 0; i < qtdProfissionais; i++)
+                {
+                    if (listaProfissionais[i].dataNascimento.mes == mesAniversario)
+                    {
+                        aniversariantes[countAniv] = listaProfissionais[i];
                         countAniv++;
                     }
                 }
 
-                if(countAniv == 0){
-                    cout << "\nNao ha aniversariantes no mes selecionado!" << endl;
-                } else {
-                    Profissional aniversariantes[countAniv];
-
-                    countAniv = 0;
-                    for(int i = 0; i < qtdProfissionais; i++){
-                        if(listaProfissionais[i].dataNascimento.mes == mesAniversario){
-                            aniversariantes[countAniv] = listaProfissionais[i];
-                            countAniv++;
-                        }
-                    }
-
-                    cout << "\nLista de profissionais aniversariantes desse mes:" << endl;
-                    exibirListaProfissionais(aniversariantes, countAniv);
-                }
-                mesAniversario = 0;
-                break;
-            case 3:
-                cout << "\nAte a proxima" << endl;
-                break;
-            default:
-                cout << "\nOpcao nao identificada, tente novamente" << endl;
+                cout << "\nLista de profissionais aniversariantes desse mes:" << endl;
+                exibirListaProfissionais(aniversariantes, countAniv);
+            }
+            mesAniversario = 0;
+            break;
+        case 3:
+            cout << "\nAte a proxima" << endl;
+            break;
+        default:
+            cout << "\nOpcao nao identificada, tente novamente" << endl;
         }
     }
-
 }
 void clientesAniversariantes();
 void atendimentosPorData();
@@ -1363,11 +1412,13 @@ void menuConsultas(Cliente *listaClientes,
                    Date dataAtual,
                    int qtdClientes,
                    int qtdProfissionais,
-                   int qtdAtendimentos){
+                   int qtdAtendimentos)
+{
     int menu = 0;
     system("cls");
 
-    while(menu != 6){
+    while (menu != 6)
+    {
         cout << "Bem-vindo ao menu das consultas!" << endl;
         cout << "Por favor, selecione a opcao que deseja consultar:" << endl;
         cout << "1 - Profissionais aniversariantes do mes" << endl;
@@ -1379,27 +1430,28 @@ void menuConsultas(Cliente *listaClientes,
         cin.ignore();
         cin >> menu;
 
-        switch(menu) {
-            case 1:
-                profissionaisAniversariantes(dataAtual, listaProfissionais, qtdProfissionais);
-                break;
-            case 2:
-                //clientesAniversariantes();
-                break;
-            case 3:
-                //atendimentosPorData();
-                break;
-            case 4:
-                //atendimentosPorMes();
-                break;
-            case 5:
-                //estatisticasProfissionais(dataAtual, listaProfissionais, qtdProfissionais);
-                break;
-            case 6:
-                cout << "\nAte a proxima!" << endl;
-                break;
-            default:
-                cout << "\nOpcao invalida, tente novamente" << endl;
+        switch (menu)
+        {
+        case 1:
+            profissionaisAniversariantes(dataAtual, listaProfissionais, qtdProfissionais);
+            break;
+        case 2:
+            // clientesAniversariantes();
+            break;
+        case 3:
+            // atendimentosPorData();
+            break;
+        case 4:
+            // atendimentosPorMes();
+            break;
+        case 5:
+            // estatisticasProfissionais(dataAtual, listaProfissionais, qtdProfissionais);
+            break;
+        case 6:
+            cout << "\nAte a proxima!" << endl;
+            break;
+        default:
+            cout << "\nOpcao invalida, tente novamente" << endl;
         }
     }
 }
@@ -1415,7 +1467,6 @@ int main()
     int incMatricula = 1;
     int qntProfissoes = 0;
     int qntProfissionais = 0;
-
     int qtdClientes = 0;
     int qtdAtendimentos = 0;
 
@@ -1428,7 +1479,7 @@ int main()
 
     // Extrai os componentes da data (dia, mês e ano)
     dataAtual.dia = data_hora->tm_mday;
-    dataAtual.mes = data_hora->tm_mon + 1; // Os meses começam em 0, então adicionamos 1
+    dataAtual.mes = data_hora->tm_mon + 1;     // Os meses começam em 0, então adicionamos 1
     dataAtual.ano = data_hora->tm_year + 1900; // Ano é o ano atual - 1900
 
     while (opcao != 6)
@@ -1436,7 +1487,7 @@ int main()
         system("cls");
         fflush(stdin);
 
-        cout << dataAtual.dia << "/" << dataAtual.mes << "/" << dataAtual.ano << endl;
+        // cout << dataAtual.dia << "/" << dataAtual.mes << "/" << dataAtual.ano << endl;
         cout << "1 - Menu de clientes" << endl;
         cout << "2 - Menu de profissoes" << endl;
         cout << "3 - Menu de profissionais" << endl;
@@ -1449,36 +1500,36 @@ int main()
 
         switch (opcao)
         {
-            case 1:
-                menuClientes(clientes, &qtdClientes);
-                break;
-            case 2:
-                menuProfissoes(listaProfissoes, &qntProfissoes, &incCodigo);
-                break;
-            case 3:
-                menuProfissional(listaProfissoes,
-                                 listaProfissionais,
-                                 &qntProfissoes,
-                                 &qntProfissionais,
-                                 &incCodigo,
-                                 &incMatricula);
-                break;
-            case 4:
-                menuAtendimento(listaAtendimentos,
-                                &qtdAtendimentos,
-                                clientes,
-                                &qtdClientes,
-                                listaProfissionais,
-                                qntProfissionais);
-                break;
-            case 5:
-                menuConsultas(clientes,
-                              listaProfissionais,
-                              listaAtendimentos,
-                              dataAtual,
-                              qtdClientes,
-                              qntProfissionais,
-                              qtdAtendimentos);
+        case 1:
+            menuClientes(clientes, &qtdClientes);
+            break;
+        case 2:
+            menuProfissoes(listaProfissoes, &qntProfissoes, &incCodigo);
+            break;
+        case 3:
+            menuProfissional(listaProfissoes,
+                             listaProfissionais,
+                             &qntProfissoes,
+                             &qntProfissionais,
+                             &incCodigo,
+                             &incMatricula);
+            break;
+        case 4:
+            menuAtendimento(listaAtendimentos,
+                            &qtdAtendimentos,
+                            clientes,
+                            &qtdClientes,
+                            listaProfissionais,
+                            qntProfissionais);
+            break;
+        case 5:
+            menuConsultas(clientes,
+                          listaProfissionais,
+                          listaAtendimentos,
+                          dataAtual,
+                          qtdClientes,
+                          qntProfissionais,
+                          qtdAtendimentos);
         }
     }
     system("pause");
