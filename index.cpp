@@ -960,6 +960,10 @@ void cadastrarAtendimento(Atendimento *listaAtendimento, int *qtdAtendimentos, C
                           Profissional *listaProfissionais, int qntProfissionais);
 void exibirAtendimento(Atendimento listaAtendimento);
 void exibirListaAtendimento(Atendimento *listaAtendimento, int qtdAtendimentos);
+void bucarAtendimento (Atendimento *listaAtendimento, int qtdAtendimentos);
+void atualizarAtendimento(Atendimento *listaAtendimento, int *qtdAtendimentos, Cliente *clientes, int *qtdClientes,
+                          Profissional *listaProfissionais, int qntProfissionais);
+
 
 void cadastrarAtendimento(Atendimento *listaAtendimento, int *qtdAtendimentos, Cliente *clientes, int *qtdClientes,
                           Profissional *listaProfissionais, int qntProfissionais)
@@ -1012,9 +1016,9 @@ void cadastrarAtendimento(Atendimento *listaAtendimento, int *qtdAtendimentos, C
         while (w2 != 1)
         {
             cout << "Escolha um profissional para o atendimento: \n\n";
-            cout << "-----------------------\n";
-            cout << "    lISTA DE Profissionais   \n";
-            cout << "-----------------------\n\n";
+            cout << "---------------------------\n";
+            cout << "    Lista de Profissionais   \n";
+            cout << "---------------------------\n\n";
             exibirListaProfissionais(listaProfissionais, qntProfissionais);
             cout << "Informe a matricula do profissional: ";
             cin >> matriculaP;
@@ -1073,6 +1077,126 @@ void exibirListaAtendimento(Atendimento *listaAtendimento, int qtdAtendimentos)
     }
 }
 
+int buscarAtendimento(Atendimento *listaAtendimento, int qtdAtendimentos){
+
+    int nAtendimento;
+
+    cout << "Informe o numero do Atendimento";
+    cin >> nAtendimento;
+    for (int i=0; i<=qtdAtendimentos;i++){
+        if (nAtendimento == listaAtendimento->numeroAtendimento){
+        return i;
+        } else{
+        return -1;
+        }
+    }
+
+}
+
+void atualizarAtendimento(Atendimento *listaAtendimento, int *qtdAtendimentos, Cliente *clientes, int *qtdClientes,
+                          Profissional *listaProfissionais, int qntProfissionais){
+
+    char matricula[5];
+    int opcao1 = 0, opcao2 = 0, w1 = 0, w2 = 0, matriculaP, numeroD,repeticao=0, encontrar= 0;
+
+    while (encontrar !=0){
+    int atualizar = bucarAtendimento(&listaAtendimento, qtdAtendimentos);
+    if (atualizar !=-1){
+    while(repeticao !=1){
+    cout << "Qual opcao a baixo gostaria de atualizar?\n";
+    cout << "1 - Cliente\n";
+    cout << "2 - Profissional\n";
+    cout << "3 - Data\n";
+    cout << "4 - Descrição";
+    cin >> opcao1;
+
+    switch (opcao1){
+
+        case 1:
+            while (w1 != 1){
+                system("cls");
+                cout << "-----------------------\n";
+                cout << "    lISTA DE CLIENTES   \n";
+                cout << "-----------------------\n\n";
+                exibirListaClientes(clientes, *qtdClientes);
+                cout << "\n";
+                cout << "Informe a matricula do novo cliente: ";
+                cin.getline(matricula, sizeof(matricula));
+                int posicaoC = buscarPosicaoCliente(clientes, *qtdClientes, matricula);
+                if (posicaoC != -1)
+                {
+                    w1 = 1;
+                    listaAtendimento[atualizar].codCliente = &clientes[posicaoC];
+                    cout << "Cliente registrado no Atendimento\n";
+                }
+                else
+                {
+                    cout << "Cliente nao encontrado!" << endl;
+                }
+            }
+            break;
+        case 2:
+            system("cls");
+            while (w2 != 1)
+            {
+                cout << "Escolha um profissional para o atendimento: \n\n";
+                cout << "---------------------------\n";
+                cout << "    Lista de Profissionais   \n";
+                cout << "---------------------------\n\n";
+                exibirListaProfissionais(listaProfissionais, qntProfissionais);
+                cout << "Informe a matricula do profissional: ";
+                cin >> matriculaP;
+                int posicaoP = buscarPosicaoProfissional(listaProfissionais, qntProfissionais, matriculaP);
+                if (posicaoP != -1)
+                {
+                    w2 = 1;
+                    listaAtendimento[atualizar].matProfissional = &listaProfissionais[posicaoP];
+                    cout << "Profissional registrado no Atendimento\n";
+                }
+                else
+                {
+                    cout << "Profissional nao encontrado!" << endl;
+                }
+            }
+            break;
+        case 3:
+            system("cls");
+            cout << "Digiteo novo dia do Atendimento: ";
+            cin >> listaAtendimento[atualizar].dataAtendimento.dia;
+            cout << "\nDigite o novo mes do Atendimento: ";
+            cin >> listaAtendimento[atualizar].dataAtendimento.mes;
+            cout << "\nDigite o novo ano do Atendimento: ";
+            cin >> listaAtendimento[atualizar].dataAtendimento.ano;
+            cout << "Data atualizada\n";
+            break;
+        case 4:
+            cout << "Descricao do Atendimento 'max = 500 caracteres'\n";
+            cin.ignore();
+            cin.getline(listaAtendimento[atualizar].descricao, sizeof(listaAtendimento[atualizar].descricao));
+            break;
+        default :
+            cout << "Digito nao valido\n";
+            break;
+
+        cout << "Deseja fazer mais alteracoes?\n";
+        cout << "1-Sim\n";
+        cout << "2-Nao\n";
+        cin << opcao2;
+        if (opcao2 == 1){
+
+        }else {
+            repeticao = 1;
+            encontrar = 1;
+        }
+
+        }
+    }
+    }else{
+        cout << "Atendimento nao encontrado\n";
+    }
+    }
+}
+
 void menuAtendimento(Atendimento *listaAtendimentos, int *qtdAtendimentos, Cliente *clientes, int *qtdClientes,
                      Profissional *listaProfissionais, int qntProfissionais)
 {
@@ -1087,9 +1211,8 @@ void menuAtendimento(Atendimento *listaAtendimentos, int *qtdAtendimentos, Clien
         cout << "1 - Cadastro de Atendimento \n";
         cout << "2 - Atualizar Atendimento \n";
         cout << "3 - Exibir Atendimentos \n";
-        cout << "4 - Busca de Atendimento \n";
-        cout << "5 - Excluir Atendimento \n";
-        cout << "6 - Voltar ao Menu principal \n";
+        cout << "4 - Excluir Atendimento \n";
+        cout << "5 - Voltar ao Menu principal \n";
         cin >> opcaomenu;
 
         switch (opcaomenu)
@@ -1103,18 +1226,19 @@ void menuAtendimento(Atendimento *listaAtendimentos, int *qtdAtendimentos, Clien
                                      qntProfissionais);
                 break;
             case 2:
-                // Método atualizarAtendimento
+                atualizarAtendimento(listaAtendimentos,
+                                     qtdAtendimentos,
+                                     clientes,
+                                     qtdClientes,
+                                     listaProfissionais,
+                                     qntProfissionais);
                 break;
             case 3:
                 exibirListaAtendimento(listaAtendimentos, *qtdAtendimentos);
                 break;
             case 4:
-                // Método buscaAtendimento
-                break;
-            case 5:
                 // Metodo excluirAtendimento
-                break;
-            case 6:
+            case 5:
                 break;
             default:
                 cout << "Opcao Invalida\n";
