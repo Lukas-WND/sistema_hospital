@@ -963,7 +963,7 @@ void exibirListaAtendimento(Atendimento *listaAtendimento, int qtdAtendimentos);
 void bucarAtendimento (Atendimento *listaAtendimento, int qtdAtendimentos);
 void atualizarAtendimento(Atendimento *listaAtendimento, int *qtdAtendimentos, Cliente *clientes, int *qtdClientes,
                           Profissional *listaProfissionais, int qntProfissionais);
-
+void deletarAtendimento(Atendimento *listaAtendimento, int *qtdAtendimentos);
 
 void cadastrarAtendimento(Atendimento *listaAtendimento, int *qtdAtendimentos, Cliente *clientes, int *qtdClientes,
                           Profissional *listaProfissionais, int qntProfissionais)
@@ -1081,7 +1081,7 @@ int buscarAtendimento(Atendimento *listaAtendimento, int qtdAtendimentos){
 
     int nAtendimento;
 
-    cout << "Informe o numero do Atendimento";
+    cout << "Informe o numero do Atendimento: ";
     cin >> nAtendimento;
     for (int i=0; i<=qtdAtendimentos;i++){
         if (nAtendimento == listaAtendimento->numeroAtendimento){
@@ -1197,6 +1197,27 @@ void atualizarAtendimento(Atendimento *listaAtendimento, int *qtdAtendimentos, C
     }
 }
 
+void deletarAtendimento(Atendimento *listaAtendimento, int qtdAtendimentos){
+    
+    cout << "----------------------\n"
+    cout << "  Excluir atendimento\n";
+    cout << "----------------------\n"
+    int excluir = bucarAtendimento(&listaAtendimento, qtdAtendimentos);
+    if (excluir != -1)
+    {
+        for (int i = excluir; i < *qtdAtendimentos; i++)
+        {
+            listaAtendimento[i] = listaAtendimento[i + 1];
+        }
+        (*qtdAtendimentos)--;
+    }
+    else
+    {
+        cout << "Atendimento nao encontrado!";
+    }
+    
+}
+
 void menuAtendimento(Atendimento *listaAtendimentos, int *qtdAtendimentos, Cliente *clientes, int *qtdClientes,
                      Profissional *listaProfissionais, int qntProfissionais)
 {
@@ -1234,10 +1255,10 @@ void menuAtendimento(Atendimento *listaAtendimentos, int *qtdAtendimentos, Clien
                                      qntProfissionais);
                 break;
             case 3:
-                exibirListaAtendimento(listaAtendimentos, *qtdAtendimentos);
+                exibirListaAtendimento(listaAtendimentos, qtdAtendimentos);
                 break;
             case 4:
-                // Metodo excluirAtendimento
+                deletarAtendimento(listaAtendimentos, qtdAtendimentos);
             case 5:
                 break;
             default:
