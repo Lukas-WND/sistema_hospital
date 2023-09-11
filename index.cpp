@@ -1303,13 +1303,19 @@ void menuAtendimento(Atendimento *listaAtendimentos, int *qtdAtendimentos, Clien
 
 // Início dos métodos de Consultas
 
-void profissionaisAniversariantes(Date dataAtual, Profissional *listaProfissionais, int qtdProfissionais)
-{
+bool dataCompare(Date data1, Date data2){
+    if(data1.dia == data2.dia && data1.mes == data2.mes && data1.ano == data2.ano){
+        return true;
+    } else {
+        return false;
+    }
+}
+
+void profissionaisAniversariantes(Date dataAtual, Profissional *listaProfissionais, int qtdProfissionais){
     int opcao, countAniv = 0, mesAniversario = 0;
     system("cls");
 
-    while (opcao != 3)
-    {
+    while(opcao != 3){
         cout << "Deseja saber os aniversariantes do mes atual ou de outro?" << endl;
         cout << "1 - Do mes atual" << endl;
         cout << "2 - De outro mes" << endl;
@@ -1317,94 +1323,446 @@ void profissionaisAniversariantes(Date dataAtual, Profissional *listaProfissiona
         cin.ignore();
         cin >> opcao;
 
-        switch (opcao)
-        {
-        case 1:
-            for (int i = 0; i < qtdProfissionais; i++)
-            {
-                if (listaProfissionais[i].dataNascimento.mes == dataAtual.mes)
-                {
-                    countAniv++;
-                }
-            }
-
-            if (countAniv == 0)
-            {
-                cout << "\nNao ha aniversariantes neste mes!" << endl;
-            }
-            else
-            {
-                Profissional aniversariantes[countAniv];
-                countAniv = 0;
-
-                for (int i = 0; i < qtdProfissionais; i++)
-                {
-                    if (listaProfissionais[i].dataNascimento.mes == dataAtual.mes)
-                    {
-                        aniversariantes[countAniv] = listaProfissionais[i];
+        switch(opcao){
+            case 1:
+                for(int i = 0; i < qtdProfissionais; i++){
+                    if(listaProfissionais[i].dataNascimento.mes == dataAtual.mes){
                         countAniv++;
                     }
                 }
 
-                cout << "\nLista de profissionais aniversariantes desse mes:" << endl;
-                exibirListaProfissionais(aniversariantes, countAniv);
-            }
-            break;
-        case 2:
-            while (mesAniversario > 12 || mesAniversario < 1)
-            {
-                cout << "\nInforme o mes que deseja buscar aniversariantes da instituicao: ";
-                cin >> mesAniversario;
+                if(countAniv == 0){
+                    cout << "\nNao ha aniversariantes neste mes!" << endl;
+                } else {
+                    Profissional aniversariantes[countAniv];
 
-                if (mesAniversario < 1 || mesAniversario > 12)
-                {
-                    cout << "\nMes invalido, tente novamente" << endl;
+                    countAniv = 0;
+                    for(int i = 0; i < qtdProfissionais; i++){
+                        if(listaProfissionais[i].dataNascimento.mes == dataAtual.mes){
+                            aniversariantes[countAniv] = listaProfissionais[i];
+                            countAniv++;
+                        }
+                    }
+
+                    cout << "\nLista de profissionais aniversariantes desse mes:" << endl;
+                    exibirListaProfissionais(aniversariantes, countAniv);
                 }
-            }
+                break;
+            case 2:
+                while(mesAniversario > 12 || mesAniversario < 1){
+                    cout << "\nInforme o mes que deseja buscar aniversariantes da instituicao: ";
+                    cin >> mesAniversario;
 
-            for (int i = 0; i < qtdProfissionais; i++)
-            {
-                if (listaProfissionais[i].dataNascimento.mes == mesAniversario)
-                {
-                    countAniv++;
+                    if(mesAniversario < 1 || mesAniversario > 12){
+                        cout << "\nMes invalido, tente novamente" << endl;
+                    }
                 }
-            }
 
-            if (countAniv == 0)
-            {
-                cout << "\nNao ha aniversariantes no mes selecionado!" << endl;
-            }
-            else
-            {
-                Profissional aniversariantes[countAniv];
-
-                countAniv = 0;
-                for (int i = 0; i < qtdProfissionais; i++)
-                {
-                    if (listaProfissionais[i].dataNascimento.mes == mesAniversario)
-                    {
-                        aniversariantes[countAniv] = listaProfissionais[i];
+                for(int i = 0; i < qtdProfissionais; i++){
+                    if(listaProfissionais[i].dataNascimento.mes == mesAniversario){
                         countAniv++;
                     }
                 }
 
-                cout << "\nLista de profissionais aniversariantes desse mes:" << endl;
-                exibirListaProfissionais(aniversariantes, countAniv);
-            }
-            mesAniversario = 0;
-            break;
-        case 3:
-            cout << "\nAte a proxima" << endl;
-            break;
-        default:
-            cout << "\nOpcao nao identificada, tente novamente" << endl;
+                if(countAniv == 0){
+                    cout << "\nNao ha aniversariantes no mes selecionado!" << endl;
+                } else {
+                    Profissional aniversariantes[countAniv];
+
+                    countAniv = 0;
+                    for(int i = 0; i < qtdProfissionais; i++){
+                        if(listaProfissionais[i].dataNascimento.mes == mesAniversario){
+                            aniversariantes[countAniv] = listaProfissionais[i];
+                            countAniv++;
+                        }
+                    }
+
+                    cout << "\nLista de profissionais aniversariantes desse mes:" << endl;
+                    exibirListaProfissionais(aniversariantes, countAniv);
+                }
+                break;
+            case 3:
+                cout << "\nAte a proxima" << endl;
+                break;
+            default:
+                cout << "\nOpcao nao identificada, tente novamente" << endl;
         }
+        countAniv = 0;
+        mesAniversario = 0;
     }
 }
-void clientesAniversariantes();
-void atendimentosPorData();
-void atendimentosPorMes();
-void estatisticasProfissionais(Date dataAtual, Profissional *listaProfissionais, int qtdProfissionais);
+
+void clientesAniversariantes(Date dataAtual, Cliente *listaClientes, int qtdClientes){
+    int opcao, countAniv = 0, mesAniversario = 0;
+    system("cls");
+
+    while(opcao != 3){
+        cout << "Deseja saber os aniversariantes do mes atual ou de outro?" << endl;
+        cout << "1 - Do mes atual" << endl;
+        cout << "2 - De outro mes" << endl;
+        cout << "3 - Voltar ao menu das consultas" << endl;
+        cin.ignore();
+        cin >> opcao;
+
+        switch(opcao){
+            case 1:
+                for(int i = 0; i < qtdClientes; i++){
+                    if(listaClientes[i].dataNascimento.mes == dataAtual.mes){
+                        countAniv++;
+                    }
+                }
+
+                if(countAniv == 0){
+                    cout << "\nNao ha clientes aniversariantes neste mes!" << endl;
+                } else {
+                    Cliente aniversariantes[countAniv];
+
+                    countAniv = 0;
+                    for(int i = 0; i < qtdClientes; i++){
+                        if(listaClientes[i].dataNascimento.mes == dataAtual.mes){
+                            aniversariantes[countAniv] = listaClientes[i];
+                            countAniv++;
+                        }
+                    }
+
+                    cout << "\nLista de clientes aniversariantes desse mes:" << endl;
+                    exibirListaClientes(aniversariantes, countAniv);
+                }
+                break;
+            case 2:
+                while(mesAniversario > 12 || mesAniversario < 1){
+                    cout << "\nInforme o mes que deseja buscar clientes aniversariantes: ";
+                    cin >> mesAniversario;
+
+                    if(mesAniversario < 1 || mesAniversario > 12){
+                        cout << "\nMes invalido, tente novamente" << endl;
+                    }
+                }
+
+                for(int i = 0; i < qtdClientes; i++){
+                    if(listaClientes[i].dataNascimento.mes == mesAniversario){
+                        countAniv++;
+                    }
+                }
+
+                if(countAniv == 0){
+                    cout << "\nNao ha aniversariantes no mes selecionado!" << endl;
+                } else {
+                    Cliente aniversariantes[countAniv];
+
+                    countAniv = 0;
+                    for(int i = 0; i < qtdClientes; i++){
+                        if(listaClientes[i].dataNascimento.mes == mesAniversario){
+                            aniversariantes[countAniv] = listaClientes[i];
+                            countAniv++;
+                        }
+                    }
+
+                    cout << "\nLista de clientes aniversariantes desse mes:" << endl;
+                    exibirListaClientes(aniversariantes, countAniv);
+                }
+                break;
+            case 3:
+                cout << "\nAte a proxima" << endl;
+                break;
+            default:
+                cout << "\nOpcao nao identificada, tente novamente" << endl;
+        }
+        countAniv = 0;
+        mesAniversario = 0;
+    }
+}
+
+void atendimentosPorData(Date dataAtual, Atendimento *listaAtendimentos, int qtdAtendimentos){
+    int opcao = 0, countAtendimento = 0, dataValid = 0;
+    Date dataAtendimento;
+
+    system("cls");
+
+    while(opcao != 3){
+        cout << "Deseja verificar os atendimentos da data atual ou de uma diferente?" << endl;
+        cout << "1 - Data atual" << endl;
+        cout << "2 - Data diferente" << endl;
+        cout << "3 - Voltar ao menu das consultas" << endl;
+        cin.ignore();
+        cin >> opcao;
+
+        switch(opcao){
+            case 1:
+                for(int i = 0; i < qtdAtendimentos; i++){
+                    if(dataCompare(listaAtendimentos[i].dataAtendimento, dataAtual)){
+                        countAtendimento++;
+                    }
+                }
+
+                if(countAtendimento == 0){
+                    cout << "\nNao ha atendimentos para a data atual" << endl;
+                } else {
+                    Atendimento atendimentosAtuais[countAtendimento];
+                    countAtendimento = 0;
+
+                    for(int i = 0; i < qtdAtendimentos; i++){
+                        if(dataCompare(listaAtendimentos[i].dataAtendimento, dataAtual)){
+                            atendimentosAtuais[countAtendimento] = listaAtendimentos[i];
+                            countAtendimento++;
+                        }
+                    }
+
+                    cout << "Lista de atendimentos realizados na data atual: " << endl;
+                    exibirListaAtendimento(atendimentosAtuais, countAtendimento);
+                }
+                break;
+            case 2:
+                cout << "Informe da Data que deseja buscar os atendimentos " << endl;
+
+                while (dataValid == 0)
+                {
+                    cout << "Dia: ";
+                    cin >> dataAtendimento.dia;
+                    cin.ignore();
+
+                    if (dataAtendimento.dia > 0 && dataAtendimento.dia <= 31)
+                    {
+                        dataValid = 1;
+                    }
+                    else
+                    {
+                        cout << "\nDia informado invalido, tente novamente!\n";
+                    }
+                }
+
+                while (dataValid == 1)
+                {
+                    cout << "Mes: ";
+                    cin >> dataAtendimento.mes;
+                    cin.ignore();
+
+                    if (dataAtendimento.mes > 0 && dataAtendimento.mes <= 12)
+                    {
+                        dataValid = 2;
+                    }
+                    else
+                    {
+                        cout << "\nMes informado invalido, tente novamente!\n";
+                    }
+                }
+
+                while (dataValid == 2)
+                {
+                    cout << "Ano: ";
+                    cin >> dataAtendimento.ano;
+                    cin.ignore();
+
+                    if (dataAtendimento.ano > (2023 - 50))
+                    {
+                        dataValid = 3;
+                    }
+                    else
+                    {
+                        cout << "\nAno informado invalido!\n\n";
+                    }
+                }
+
+                for(int i = 0; i < qtdAtendimentos; i++){
+                    if(dataCompare(listaAtendimentos[i].dataAtendimento, dataAtendimento)){
+                        countAtendimento++;
+                    }
+                }
+
+                if(countAtendimento == 0){
+                    cout << "\nNao ha atendimentos para a data especificada" << endl;
+                } else {
+                    Atendimento atendimentosAtuais[countAtendimento];
+                    countAtendimento = 0;
+
+                    for(int i = 0; i < qtdAtendimentos; i++){
+                        if(dataCompare(listaAtendimentos[i].dataAtendimento, dataAtendimento)){
+                            atendimentosAtuais[countAtendimento] = listaAtendimentos[i];
+                            countAtendimento++;
+                        }
+                    }
+
+                    cout << "Lista de atendimentos realizados na data atual: " << endl;
+                    exibirListaAtendimento(atendimentosAtuais, countAtendimento);
+                }
+                break;
+        }
+        countAtendimento = 0;
+        dataValid = 0;
+    }
+}
+
+void atendimentosPorMes(Date dataAtual, Atendimento *listaAtendimentos, int qtdAtendimentos){
+    int opcao = 0, mes = 0, countAtendimento = 0;
+
+    system("cls");
+
+    while(opcao != 3){
+        cout << "Deseja verificar os registros de atendimento: " << endl;
+        cout << "1 - Do mes atual" << endl;
+        cout << "2 - De outro mes" << endl;
+        cout << "3 - Voltar ao menu de consultas" << endl;
+        cin.ignore();
+        cin >> opcao;
+
+        switch(opcao){
+            case 1:
+                for(int i = 0; i < qtdAtendimentos; i++){
+                    if(listaAtendimentos[i].dataAtendimento.mes == dataAtual.mes) {
+                        countAtendimento++;
+                    }
+                }
+
+                if(countAtendimento == 0){
+                    cout << "\nNao ha atendimentos registrados no mes atual!\n" << endl;
+                } else {
+                    Atendimento atendimentosAtuais[countAtendimento];
+                    countAtendimento = 0;
+
+                    for(int i = 0; i < qtdAtendimentos; i++){
+                        if(listaAtendimentos[i].dataAtendimento.mes == dataAtual.mes){
+                            atendimentosAtuais[countAtendimento] = listaAtendimentos[i];
+                            countAtendimento++;
+                        }
+                    }
+
+                    cout << "\nLista de atendimentos do mes atual:\n" << endl;
+                    exibirListaAtendimento(atendimentosAtuais, countAtendimento);
+                }
+                break;
+            case 2:
+                cout << "\nInforme o mes o qual deseja verificar: ";
+                cin >> mes;
+
+                if(mes < 1 || mes > 12){
+                    cout << "\nMes informado invalido, tente novamente!\n" << endl;
+                } else {
+                    for(int i = 0; i < qtdAtendimentos; i++){
+                        if(listaAtendimentos[i].dataAtendimento.mes == mes) {
+                            countAtendimento++;
+                        }
+                    }
+
+                    if(countAtendimento == 0){
+                        cout << "\nNao ha atendimentos registrados no mes atual!\n" << endl;
+                    } else {
+                        Atendimento atendimentosAtuais[countAtendimento];
+                        countAtendimento = 0;
+
+                        for(int i = 0; i < qtdAtendimentos; i++){
+                            if(listaAtendimentos[i].dataAtendimento.mes == mes){
+                                atendimentosAtuais[countAtendimento] = listaAtendimentos[i];
+                                countAtendimento++;
+                            }
+                        }
+
+                        cout << "\nLista de atendimentos do mes" << mes << "\n" << endl;
+                        exibirListaAtendimento(atendimentosAtuais, countAtendimento);
+                    }
+                }
+                break;
+            case 3:
+                cout << "\nAte a proxima\n" << endl;
+                break;
+            default:
+                cout << "\nOpcao invalida, tente novamente\n" << endl;
+        }
+        countAtendimento = 0;
+        mes = 0;
+    }
+}
+
+void estatisticasProfissionais(Date dataAtual,
+                               Profissional *listaProfissionais,
+                               Atendimento *listaAtendimentos,
+                               int qtdProfissionais,
+                               int qtdAtendimentos){
+    int opcao = 0, mes = 0, matricula = 0, countAtendimentos = 0, valid = 0;
+
+    system("cls");
+
+    while(opcao != 4){
+        cout << "Selecione uma opcao:" << endl;
+        cout << "1 - Verificar a lista de profissionais cadastrados na insituicao" << endl;
+        cout << "2 - Verificar as estatisticas de um profissional no mes atual" << endl;
+        cout << "3 - Verificar as estatisticas de um profissional em outro mes" << endl;
+        cout << "4 - Voltar ao menu das consultas" << endl;
+        cin.ignore();
+        cin >> opcao;
+
+        switch (opcao) {
+            case 1:
+                exibirListaProfissionais(listaProfissionais, qtdProfissionais);
+                break;
+            case 2:
+                cout << "\nInforme a matricula do profissional: ";
+                cin >> matricula;
+
+                valid = buscarPosicaoProfissional(listaProfissionais, qtdProfissionais, matricula);
+
+                if(valid == -1){
+                    cout << "\nProfissional nao encontrado nos registros!\n" << endl;
+                } else {
+                    for(int i = 0; i < qtdAtendimentos; i++){
+                        if(listaAtendimentos[i].matProfissional->matricula == matricula &&
+                            listaAtendimentos[i].dataAtendimento.mes == dataAtual.mes){
+                            countAtendimentos++;
+                        }
+                    }
+
+                    if(countAtendimentos == 0){
+                        cout << "O profissional " << listaProfissionais[valid].nome;
+                        cout << " nao possui atendimentos neste mes" << endl;
+                    } else {
+                        cout << "O profissional " << listaProfissionais[valid].nome;
+                        cout << " possui um total de " << countAtendimentos;
+                        cout << " atendimentos realizados neste mes" << endl;
+                    }
+                }
+                break;
+            case 3:
+                cout << "\nInforme o mes que deseja verificar: ";
+                cin >> mes;
+
+                if(mes < 1 || mes > 12){
+                    cout << "\nMes informado invalido\n" << endl;
+                } else {
+                    cout << "\nInforme a matricula do profissional: ";
+                    cin >> matricula;
+
+                    valid = buscarPosicaoProfissional(listaProfissionais, qtdProfissionais, matricula);
+
+                    if(valid == -1){
+                        cout << "\nProfissional nao encontrado nos registros!\n" << endl;
+                    } else {
+                        for(int i = 0; i < qtdAtendimentos; i++){
+                            if(listaAtendimentos[i].matProfissional->matricula == matricula &&
+                                listaAtendimentos[i].dataAtendimento.mes == mes){
+                                countAtendimentos++;
+                            }
+                        }
+
+                        if(countAtendimentos == 0){
+                            cout << "O profissional " << listaProfissionais[valid].nome;
+                            cout << " nao possui atendimentos no mes " << mes << "\n" << endl;
+                        } else {
+                            cout << "O profissional " << listaProfissionais[valid].nome;
+                            cout << " possui um total de " << countAtendimentos;
+                            cout << " atendimentos realizados no mes " << mes  << "\n" << endl;
+                        }
+                    }
+                }
+                break;
+            case 4:
+                cout << "\nAte a proxima!\n" << endl;
+                break;
+            default:
+                cout << "\nOpcao nao identificada, tente novamente\n" << endl;
+        }
+        countAtendimentos = 0;
+    }
+
+}
 
 void menuConsultas(Cliente *listaClientes,
                    Profissional *listaProfissionais,
@@ -1430,28 +1788,31 @@ void menuConsultas(Cliente *listaClientes,
         cin.ignore();
         cin >> menu;
 
-        switch (menu)
-        {
-        case 1:
-            profissionaisAniversariantes(dataAtual, listaProfissionais, qtdProfissionais);
-            break;
-        case 2:
-            // clientesAniversariantes();
-            break;
-        case 3:
-            // atendimentosPorData();
-            break;
-        case 4:
-            // atendimentosPorMes();
-            break;
-        case 5:
-            // estatisticasProfissionais(dataAtual, listaProfissionais, qtdProfissionais);
-            break;
-        case 6:
-            cout << "\nAte a proxima!" << endl;
-            break;
-        default:
-            cout << "\nOpcao invalida, tente novamente" << endl;
+       switch(menu) {
+            case 1:
+                profissionaisAniversariantes(dataAtual, listaProfissionais, qtdProfissionais);
+                break;
+            case 2:
+                clientesAniversariantes(dataAtual, listaClientes, qtdClientes);
+                break;
+            case 3:
+                atendimentosPorData(dataAtual, listaAtendimentos, qtdAtendimentos);
+                break;
+            case 4:
+                atendimentosPorMes(dataAtual, listaAtendimentos, qtdAtendimentos);
+                break;
+            case 5:
+                estatisticasProfissionais(dataAtual,
+                                          listaProfissionais,
+                                          listaAtendimentos,
+                                          qtdProfissionais,
+                                          qtdAtendimentos);
+                break;
+            case 6:
+                cout << "\nAte a proxima!" << endl;
+                break;
+            default:
+                cout << "\nOpcao invalida, tente novamente" << endl;
         }
     }
 }
