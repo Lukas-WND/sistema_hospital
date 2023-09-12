@@ -1,0 +1,4 @@
+202301;Medico;CRM
+202302;Dentista;CRO
+202303;Enfermeiro;COREN
+202304;Clinico Geral;CRM
