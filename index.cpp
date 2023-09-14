@@ -407,8 +407,9 @@ void menuClientes(Cliente *clientes, int *qtdClientes){
     int posicao = -1;
     char matricula[5];
 
+    system("cls");
+    
     while (opcao != 6) {
-        system("cls");
         fflush(stdin);
 
         cout << "1 - Cadastrar cliente" << endl;
@@ -464,8 +465,8 @@ void menuClientes(Cliente *clientes, int *qtdClientes){
                 system("cls");
                 break;
             default:
-                cout << "Opcao invalida!\n\n";
                 system("cls");
+                cout << "Opcao invalida!\n\n";
                 break;
         }
     }
@@ -1231,7 +1232,7 @@ void carregarAtendimentos(Atendimento *listaAtendimentos,
                 istringstream ss(line);
                 string field;
                 int posicao = 0;
-                char *codCliente;
+                char codCliente[5];
 
                 getline(ss, field, ';');
                 strcpy(novoAtendimento.numeroAtendimento, field.c_str());
