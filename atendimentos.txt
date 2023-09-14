@@ -1,1 +1,2 @@
 0001;2023001;0001;10;9;2021;Paciente se queixava de dores nas costas, foi receitado oleo de andiroba e banha de cobra
+0002;2023003;0002;13;7;2023;Paciente se quixava de fortes dores de dente, foi necessario fazer um canal
