@@ -1,0 +1,2 @@
+0001;01412392399;Joao da silva;14;3;1998;e.magnobn@gmail.com;929842299;15;Aderson de menezes;Petropolis;Manaus;Amazonas;69067100
+0002;35724916899;Marcos Souza;13;12;2003;marcos.souza@gmail.com;92991462335;212;rua 01;alvorada;manaus;amazonas;69043110
